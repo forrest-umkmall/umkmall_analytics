@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  lightdash:
+    image: lightdash/lightdash:latest
+    depends_on:
+      - db
+    environment:
+      - PGHOST=${POSTGRES_HOST:-db}
+      - PGPORT=${POSTGRES_PORT:-5432}
+      - PGUSER=${POSTGRES_USER:-postgres}
+      - PGPASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - PGDATABASE=${POSTGRES_DB:-analytics}
+      - LIGHTDASH_SECRET=${LIGHTDASH_SECRET:-not_very_secret_change_me}
+      - SECURE_COOKIES=false
+      - TRUST_PROXY=false
+      - LIGHTDASH_LOG_LEVEL=debug
+      - PORT=8080
+      # Point to the dbt project
+      - DBT_PROJECT_DIR=/usr/app/dbt
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the dbt project so Lightdash can read it
+      - ../dbt:/usr/app/dbt:ro
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-analytics}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

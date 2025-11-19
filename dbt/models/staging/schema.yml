@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_example
+    description: Example staging model - replace with your actual staging models
+    columns:
+      - name: id
+        description: Primary key
+        tests:
+          - unique
+          - not_null

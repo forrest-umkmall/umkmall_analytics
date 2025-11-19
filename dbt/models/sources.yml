@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw data ingested from various sources
+    database: "{{ env_var('POSTGRES_DB', 'analytics') }}"
+    schema: raw
+    tables:
+      # Add your raw tables here as you create ingestion scripts
+      # Example:
+      # - name: example_table
+      #   description: Description of the raw data
+      #   columns:
+      #     - name: id
+      #       description: Primary key
+      #       tests:
+      #         - unique
+      #         - not_null

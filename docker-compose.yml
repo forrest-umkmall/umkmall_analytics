@@ -1,0 +1,72 @@
+version: "3.8"
+
+# Local development setup that mirrors Railway production environment
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: analytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # dbt + Ingestion service (runs once, or can be triggered manually)
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: analytics
+      DBT_TARGET: dev
+    volumes:
+      # Mount source code for development
+      - ./ingestion:/app/ingestion
+      - ./dbt:/app/dbt
+    profiles: ["pipeline"]
+
+  # Lightdash analytics UI
+  lightdash:
+    image: lightdash/lightdash:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: analytics
+      LIGHTDASH_SECRET: dev_secret_not_for_production
+      SECURE_COOKIES: "false"
+      TRUST_PROXY: "false"
+      PORT: 8080
+      DBT_PROJECT_DIR: /usr/app/dbt
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dbt:/usr/app/dbt:ro
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+# Use profiles to control which services run
+# Run everything: docker-compose up
+# Run just DB and Lightdash: docker-compose up postgres lightdash
+# Run pipeline manually: docker-compose run pipeline

@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: mart_example
+    description: Example mart model - replace with your actual mart models
+    columns:
+      - name: id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
