@@ -1,11 +1,26 @@
 version: 2
 
 models:
-  - name: mart_example
-    description: Example mart model - replace with your actual mart models
+  - name: mart_all_data_by_contact
+    description: Deduplicated enriched contacts combining marketing leads and purchase data
     columns:
-      - name: id
-        description: Primary key
-        tests:
-          - unique
-          - not_null
+      - name: email
+        description: Contact email address
+      - name: phone_number
+        description: Contact phone number
+
+  - name: mart_marketing_data
+    description: Deduplicated marketing leads from all Google Sheets sources
+    columns:
+      - name: email
+        description: Lead email address
+      - name: phone_number
+        description: Lead phone number
+
+  - name: mart_product_data
+    description: Customer purchase transactions from product database
+    columns:
+      - name: email
+        description: Customer email address
+      - name: phone_number
+        description: Customer phone number

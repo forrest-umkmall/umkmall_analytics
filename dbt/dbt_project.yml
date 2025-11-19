@@ -20,12 +20,17 @@ clean-targets:
 # Configuring models
 models:
   umkmall_analytics:
-    # Raw layer - no transformations
+    # Staging layer - light transformations
     staging:
       +materialized: view
       +schema: staging
 
-    # Business logic layer
+    # Intermediate layer - unions and joins
+    intermediate:
+      +materialized: table
+      +schema: intermediate
+
+    # Mart layer - final business logic
     marts:
       +materialized: table
       +schema: marts

@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: int_all_marketing_leads
+    description: Union of all marketing lead sources from Google Sheets
+    columns:
+      - name: email
+        description: Normalized lead email
+      - name: phone_number
+        description: Normalized lead phone
+      - name: data_source
+        description: Source identifier
+
+  - name: int_enriched_contacts
+    description: Marketing leads merged with purchase data for contact enrichment
+    columns:
+      - name: email
+        description: Contact email (from either source)
+      - name: phone_number
+        description: Contact phone (from either source)
+      - name: marketing_data_source
+        description: Marketing source identifier
+      - name: purchase_data_source
+        description: Purchase source identifier

@@ -1,11 +1,42 @@
 version: 2
 
 models:
-  - name: stg_example
-    description: Example staging model - replace with your actual staging models
+  - name: stg_purchase_form_data
+    description: Staged purchase form data from Supabase
     columns:
-      - name: id
-        description: Primary key
-        tests:
-          - unique
-          - not_null
+      - name: email
+        description: Normalized customer email
+      - name: phone_number
+        description: Normalized customer phone (+62 format)
+
+  - name: stg_leads_ads_community
+    description: Staged leads from Ads Community Google Sheets
+    columns:
+      - name: email
+        description: Normalized lead email
+      - name: phone_number
+        description: Normalized lead phone (+62 format)
+
+  - name: stg_website_form_responses
+    description: Staged leads from Website Form Google Sheets
+    columns:
+      - name: email
+        description: Normalized lead email
+      - name: phone_number
+        description: Normalized lead phone (+62 format)
+
+  - name: stg_leads_course_strategi_ads
+    description: Staged leads from Course Strategy Ads Google Sheets
+    columns:
+      - name: email
+        description: Normalized lead email
+      - name: phone_number
+        description: Normalized lead phone (+62 format)
+
+  - name: stg_branding_level_up
+    description: Staged leads from Branding Level Up Google Sheets
+    columns:
+      - name: email
+        description: Normalized lead email
+      - name: phone_number
+        description: Normalized lead phone (+62 format)

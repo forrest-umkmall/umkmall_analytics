@@ -6,13 +6,60 @@ sources:
     database: "{{ env_var('POSTGRES_DB', 'analytics') }}"
     schema: raw
     tables:
-      # Add your raw tables here as you create ingestion scripts
-      # Example:
-      # - name: example_table
-      #   description: Description of the raw data
-      #   columns:
-      #     - name: id
-      #       description: Primary key
-      #       tests:
-      #         - unique
-      #         - not_null
+      - name: purchase_form_data
+        description: Customer purchase data from Supabase product database
+        columns:
+          - name: email
+            description: Customer email address (normalized)
+          - name: phone_number
+            description: Customer phone number (normalized to +62 format)
+          - name: data_source
+            description: Source identifier
+
+      - name: leads_ads_community
+        description: Lead registration data from Ads Community Google Sheets
+        columns:
+          - name: email
+            description: Lead email address (normalized)
+          - name: phone_number
+            description: Lead phone number (normalized)
+          - name: sheet_name
+            description: Original sheet name in the spreadsheet
+          - name: data_source
+            description: Source identifier
+
+      - name: website_form_responses
+        description: Lead registration data from Website Form Google Sheets
+        columns:
+          - name: email
+            description: Lead email address (normalized)
+          - name: phone_number
+            description: Lead phone number (normalized)
+          - name: sheet_name
+            description: Original sheet name in the spreadsheet
+          - name: data_source
+            description: Source identifier
+
+      - name: leads_course_strategi_ads
+        description: Lead registration data from Course Strategy Ads Google Sheets
+        columns:
+          - name: email
+            description: Lead email address (normalized)
+          - name: phone_number
+            description: Lead phone number (normalized)
+          - name: sheet_name
+            description: Original sheet name in the spreadsheet
+          - name: data_source
+            description: Source identifier
+
+      - name: branding_level_up
+        description: Lead registration data from Branding Level Up Google Sheets
+        columns:
+          - name: email
+            description: Lead email address (normalized)
+          - name: phone_number
+            description: Lead phone number (normalized)
+          - name: sheet_name
+            description: Original sheet name in the spreadsheet
+          - name: data_source
+            description: Source identifier
