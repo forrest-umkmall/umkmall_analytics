@@ -11,6 +11,7 @@ umkmall_analytics:
       schema: dbt_dev
       threads: 4
       keepalives_idle: 0
+      sslmode: disable
 
     prod:
       type: postgres
@@ -22,3 +23,4 @@ umkmall_analytics:
       schema: dbt_prod
       threads: 4
       keepalives_idle: 0
+      sslmode: "{{ env_var('POSTGRES_SSLMODE', 'prefer') }}"
