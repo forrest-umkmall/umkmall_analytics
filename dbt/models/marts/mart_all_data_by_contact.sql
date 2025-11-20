@@ -22,21 +22,34 @@ deduplicated as (
             partition by
                 coalesce(email, ''),
                 coalesce(phone_number, '')
-            order by extracted_at::timestamp desc nulls last
+            order by extracted_at desc
         ) as row_num
     from enriched_contacts
-    where (email is not null and email != '')
-       or (phone_number is not null and phone_number != '')
+    where email is not null or phone_number is not null
 )
 
 select
     email,
     phone_number,
+    nama_usaha,
+    nama_pemilik_usaha,
+    provinsi_usaha,
+    bidang_usaha,
+    nama_akun_media_sosial,
+    nama_akun_ecommerce,
+    lama_usaha,
+    pendapatan_bulanan,
+    tergabung_komunitas_umkm,
+    memiliki_nib,
+    memiliki_sertifikasi_halal,
     customer_first_name,
     customer_last_name,
+    marketing_timestamp,
     purchase_paid_at,
+    marketing_sheet_name,
+    marketing_data_source,
     purchase_data_source,
-    data_source,
     extracted_at
+
 from deduplicated
 where row_num = 1
