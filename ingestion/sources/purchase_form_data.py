@@ -13,9 +13,9 @@ from datetime import datetime
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lib.postgres_client import PostgresClient
-from lib.column_mappings import apply_column_mapping, normalize_dataframe
-from utils.db import get_db_connection
+from ingestion.lib.postgres_client import PostgresClient
+from ingestion.lib.column_mappings import apply_column_mapping, normalize_dataframe
+from ingestion.utils.db import get_db_connection
 
 logger = logging.getLogger(__name__)
 

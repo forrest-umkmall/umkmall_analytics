@@ -28,32 +28,28 @@ def run_ingestion_scripts():
     """
     logger.info("Starting data ingestion pipeline")
 
-    sources_dir = Path(__file__).parent / "sources"
+    # Import and run each source module
+    from ingestion.sources import purchase_form_data
+    from ingestion.sources import leads_ads_community
+    from ingestion.sources import website_form_responses
+    from ingestion.sources import leads_course_strategi_ads
+    from ingestion.sources import branding_level_up
 
-    if not sources_dir.exists():
-        logger.warning(f"Sources directory not found: {sources_dir}")
-        return
+    sources = [
+        ("purchase_form_data", purchase_form_data.ingest_purchase_data),
+        ("leads_ads_community", leads_ads_community.ingest_leads_ads_community),
+        ("website_form_responses", website_form_responses.ingest_website_form_responses),
+        ("leads_course_strategi_ads", leads_course_strategi_ads.ingest_leads_course_strategi_ads),
+        ("branding_level_up", branding_level_up.ingest_branding_level_up),
+    ]
 
-    # Get all Python files in sources directory
-    source_files = sorted(sources_dir.glob("*.py"))
-
-    if not source_files:
-        logger.warning("No ingestion scripts found in sources directory")
-        return
-
-    for source_file in source_files:
-        if source_file.name.startswith("_"):
-            logger.info(f"Skipping {source_file.name} (starts with underscore)")
-            continue
-
-        logger.info(f"Running ingestion script: {source_file.name}")
+    for source_name, ingest_func in sources:
+        logger.info(f"Running ingestion: {source_name}")
         try:
-            # Import and run the script
-            module_name = source_file.stem
-            exec(open(source_file).read(), {"__name__": "__main__"})
-            logger.info(f"Successfully completed: {source_file.name}")
+            ingest_func()
+            logger.info(f"Successfully completed: {source_name}")
         except Exception as e:
-            logger.error(f"Error running {source_file.name}: {str(e)}")
+            logger.error(f"Error running {source_name}: {str(e)}")
             raise
 
 

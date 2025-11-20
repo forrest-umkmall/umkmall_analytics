@@ -14,9 +14,9 @@ import pandas as pd
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lib.gsheets_client import GSheetsClient
-from lib.column_mappings import apply_column_mapping, normalize_dataframe
-from utils.db import get_db_connection
+from ingestion.lib.gsheets_client import GSheetsClient
+from ingestion.lib.column_mappings import apply_column_mapping, normalize_dataframe
+from ingestion.utils.db import get_db_connection
 
 logger = logging.getLogger(__name__)
 
