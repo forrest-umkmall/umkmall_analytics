@@ -68,6 +68,10 @@ def ingest_leads_ads_community():
         df['data_source'] = SOURCE_NAME
         df['extracted_at'] = datetime.utcnow()
 
+        # Rename 'id' column if it exists to avoid conflict with SERIAL PRIMARY KEY
+        if 'id' in df.columns:
+            df = df.rename(columns={'id': 'source_id'})
+
         # Load to analytics database (raw schema)
         logger.info("Loading data to analytics database")
         conn = get_db_connection()

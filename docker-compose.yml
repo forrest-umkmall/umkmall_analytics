@@ -27,7 +27,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env.local
     environment:
+      # Override host for Docker network
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
       POSTGRES_USER: postgres

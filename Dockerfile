@@ -1,16 +1,4 @@
-# Multi-stage Dockerfile for dbt + data ingestion
-FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim AS builder
-
-# Set working directory
-WORKDIR /app
-
-# Copy dependency files
-COPY pyproject.toml uv.lock ./
-
-# Install dependencies using uv
-RUN uv sync --frozen --no-dev
-
-# Final stage
+# Single-stage Dockerfile for dbt + data ingestion
 FROM python:3.11-slim-bookworm
 
 # Install system dependencies
@@ -22,14 +10,26 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy uv virtual environment from builder
-COPY --from=builder /app/.venv /app/.venv
+# Copy dependency files
+COPY pyproject.toml ./
+
+# Install dependencies using pip
+RUN pip install --no-cache-dir \
+    "dbt-core>=1.10.15" \
+    "dbt-postgres>=1.9.1" \
+    "psycopg2-binary>=2.9.9" \
+    "python-dotenv>=1.0.0" \
+    "pandas>=2.1.0" \
+    "sqlalchemy>=2.0.0" \
+    "requests>=2.31.0" \
+    "google-auth>=2.23.0" \
+    "google-auth-oauthlib>=1.1.0" \
+    "google-api-python-client>=2.100.0"
 
 # Copy application code
 COPY . .
 
-# Add virtual environment to PATH
-ENV PATH="/app/.venv/bin:$PATH"
+# Set PYTHONPATH to include app directory
 ENV PYTHONPATH="/app:$PYTHONPATH"
 
 # Set dbt profiles directory

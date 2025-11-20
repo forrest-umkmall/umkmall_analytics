@@ -61,34 +61,48 @@ def run_dbt():
 
     dbt_dir = project_root / "dbt"
 
+    # Import dbt CLI
+    from dbt.cli.main import dbtRunner, dbtRunnerResult
+
+    # Initialize dbt runner
+    dbt = dbtRunner()
+
+    # Set environment for dbt
+    os.environ["DBT_PROFILES_DIR"] = str(dbt_dir)
+
+    # Change to dbt directory
+    original_dir = os.getcwd()
+    os.chdir(dbt_dir)
+
     try:
         # Run dbt deps to install dependencies
         logger.info("Running dbt deps")
-        subprocess.run(
-            ["dbt", "deps"],
-            cwd=dbt_dir,
-            check=True,
-            env={**os.environ, "DBT_PROFILES_DIR": str(dbt_dir)}
-        )
+        result: dbtRunnerResult = dbt.invoke(["deps"])
+        if not result.success:
+            raise Exception(f"dbt deps failed: {result.exception}")
 
         # Run dbt build (runs models, tests, and snapshots)
-        logger.info("Running dbt build")
-        result = subprocess.run(
-            ["dbt", "build"],
-            cwd=dbt_dir,
-            check=True,
-            env={**os.environ, "DBT_PROFILES_DIR": str(dbt_dir)}
-        )
+        # Use DBT_TARGET env var if set, otherwise use default from profile
+        target = os.environ.get("DBT_TARGET")
+        build_args = ["build"]
+        if target:
+            build_args.extend(["--target", target])
+            logger.info(f"Running dbt build with target: {target}")
+        else:
+            logger.info("Running dbt build")
+
+        result: dbtRunnerResult = dbt.invoke(build_args)
+        if not result.success:
+            raise Exception(f"dbt build failed: {result.exception}")
 
         logger.info("dbt transformation completed successfully")
-        return result.returncode == 0
+        return True
 
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         logger.error(f"dbt command failed: {str(e)}")
         raise
-    except FileNotFoundError:
-        logger.error("dbt command not found. Is dbt installed?")
-        raise
+    finally:
+        os.chdir(original_dir)
 
 
 def main():

@@ -11,7 +11,7 @@ select
     nama_pemilik_usaha,
     nama_akun_media_sosial,
     nama_akun_ecommerce,
-    bidang_usaha,
+    bidang_usaha_yang_sedang_dijalankan_saat_ini_cth_pakaian_makana as bidang_usaha,
     lama_usaha,
     provinsi_usaha,
     pendapatan_bulanan,

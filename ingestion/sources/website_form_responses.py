@@ -51,6 +51,10 @@ def ingest_website_form_responses():
         df['data_source'] = SOURCE_NAME
         df['extracted_at'] = datetime.utcnow()
 
+        # Rename 'id' column if it exists to avoid conflict with SERIAL PRIMARY KEY
+        if 'id' in df.columns:
+            df = df.rename(columns={'id': 'source_id'})
+
         conn = get_db_connection()
         cursor = conn.cursor()
 
