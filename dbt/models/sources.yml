@@ -87,3 +87,31 @@ sources:
             description: Total learning time in seconds
           - name: data_source
             description: Source identifier
+
+      - name: eduqat_users
+        description: User data from Eduqat API
+        columns:
+          - name: id
+            description: Unique user identifier (integer)
+          - name: user_id
+            description: User ID (same as id)
+          - name: subid
+            description: UUID identifier for the user
+          - name: name
+            description: User's display name
+          - name: email
+            description: User's email address
+          - name: phone_number
+            description: User's phone number
+          - name: role
+            description: User role (learner, admin, user)
+          - name: status
+            description: Account status (ACTIVE, CONFIRMED)
+          - name: total_course
+            description: Number of courses created by user
+          - name: total_enrollment
+            description: Number of course enrollments
+          - name: created_at
+            description: Account creation timestamp
+          - name: data_source
+            description: Source identifier

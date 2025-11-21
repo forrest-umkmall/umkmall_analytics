@@ -1,11 +1,16 @@
 """
 Main orchestrator for data ingestion pipeline.
 Runs all ingestion scripts sequentially and then triggers dbt.
+
+Usage:
+    python ingestion/main.py              # Run full pipeline (ingestion + dbt)
+    python ingestion/main.py --ingest-only  # Run ingestion only, skip dbt
 """
 
 import os
 import sys
 import subprocess
+import argparse
 from pathlib import Path
 from datetime import datetime
 import logging
@@ -21,6 +26,14 @@ logger = logging.getLogger(__name__)
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+# Load environment variables from .env.local (for local development)
+# In production (Railway), env vars are set directly in the platform
+from dotenv import load_dotenv
+env_file = project_root / '.env.local'
+if env_file.exists():
+    load_dotenv(env_file)
+    logger.debug(f"Loaded environment from {env_file}")
+
 
 def run_ingestion_scripts():
     """
@@ -34,6 +47,8 @@ def run_ingestion_scripts():
     from ingestion.sources import website_form_responses
     from ingestion.sources import leads_course_strategi_ads
     from ingestion.sources import branding_level_up
+    from ingestion.sources import eduqat_enrollments
+    from ingestion.sources import eduqat_users
 
     sources = [
         ("purchase_form_data", purchase_form_data.ingest_purchase_data),
@@ -41,6 +56,8 @@ def run_ingestion_scripts():
         ("website_form_responses", website_form_responses.ingest_website_form_responses),
         ("leads_course_strategi_ads", leads_course_strategi_ads.ingest_leads_course_strategi_ads),
         ("branding_level_up", branding_level_up.ingest_branding_level_up),
+        ("eduqat_enrollments", eduqat_enrollments.ingest_eduqat_enrollments),
+        ("eduqat_users", eduqat_users.ingest_eduqat_users),
     ]
 
     for source_name, ingest_func in sources:
@@ -109,6 +126,16 @@ def main():
     """
     Main orchestration function.
     """
+    parser = argparse.ArgumentParser(
+        description="Run the data ingestion pipeline"
+    )
+    parser.add_argument(
+        "--ingest-only",
+        action="store_true",
+        help="Run ingestion only, skip dbt transformations"
+    )
+    args = parser.parse_args()
+
     start_time = datetime.now()
     logger.info(f"Pipeline started at {start_time}")
 
@@ -116,8 +143,11 @@ def main():
         # Step 1: Run ingestion scripts
         run_ingestion_scripts()
 
-        # Step 2: Run dbt transformations
-        run_dbt()
+        # Step 2: Run dbt transformations (unless --ingest-only)
+        if not args.ingest_only:
+            run_dbt()
+        else:
+            logger.info("Skipping dbt transformations (--ingest-only)")
 
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()

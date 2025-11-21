@@ -120,6 +120,37 @@ class EduqatClient:
         """
         return self._make_request('/manage/admin/enrollments')
 
+    def get_users(self) -> dict:
+        """
+        Get all users from /manage/admin/users.
+
+        Returns:
+            Dict with 'count' and 'items' keys containing user data.
+
+        Example response structure:
+            {
+                "count": 51,
+                "items": [
+                    {
+                        "id": 78,
+                        "user_id": 78,
+                        "subid": "7dee0c2e-fe07-436f-8a85-3a8cc8574bc9",
+                        "name": "Novita Fadhilah",
+                        "email": "novitafadhilah.nf@gmail.com",
+                        "phone_number": null,
+                        "role": "learner",
+                        "status": "ACTIVE",
+                        "total_course": 0,
+                        "total_enrollment": 1,
+                        "created_at": "2025-11-21T04:01:39.406Z",
+                        ...
+                    },
+                    ...
+                ]
+            }
+        """
+        return self._make_request('/manage/admin/users')
+
     def get(self, endpoint: str) -> dict:
         """
         Make a GET request to any endpoint.

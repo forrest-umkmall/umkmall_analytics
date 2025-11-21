@@ -2,6 +2,9 @@
 
 A modern, cost-effective analytics platform built with dbt and Lightdash, designed for small teams (up to 20 users).
 
+Command to run all ingestion sources locally:
+`uv run ingestion/main.py --ingest-only`
+
 Command to run sample ingestion source:
 `uv run --env-file .env.local ingestion/sources/eduqat_enrollments.py`
 
