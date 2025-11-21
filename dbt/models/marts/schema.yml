@@ -3,36 +3,39 @@ version: 2
 models:
   - name: mart_contact
     description: Unified contact mart - one row per email-phone pair, integrating marketing leads, purchases, and Eduqat data
-    meta:
-      metrics:
-        number_of_contacts:
-          type: count
-          description: Total number of unique contacts
-        number_of_emails:
-          type: count_distinct
-          sql: "CASE WHEN ${email} IS NOT NULL THEN ${contact_key} END"
-          description: Number of contacts with email addresses
-        number_of_wa:
-          type: count_distinct
-          sql: "CASE WHEN ${phone_number} IS NOT NULL THEN ${contact_key} END"
-          description: Number of contacts with WhatsApp/phone numbers
-        number_of_product_users:
-          type: count_distinct
-          sql: "CASE WHEN ${first_purchased_at} IS NOT NULL THEN ${contact_key} END"
-          description: Number of contacts who have made a purchase
     columns:
       - name: contact_key
         description: Composite key (email|phone) for contact identification
+        meta:
+          metrics:
+            number_of_contacts:
+              type: count_distinct
+              description: Total number of unique contacts
       - name: email
         description: Contact email address
+        meta:
+          metrics:
+            number_of_emails:
+              type: count_distinct
+              description: Number of contacts with email addresses
       - name: phone_number
         description: Contact phone number (+62 format)
+        meta:
+          metrics:
+            number_of_wa:
+              type: count_distinct
+              description: Number of contacts with WhatsApp/phone numbers
       - name: first_name
         description: Contact first name (from purchase, eduqat, or marketing)
       - name: last_name
         description: Contact last name (from purchase, eduqat, or marketing)
       - name: first_purchased_at
         description: First purchase timestamp
+        meta:
+          metrics:
+            number_of_product_users:
+              type: count_distinct
+              description: Number of contacts who have made a purchase
       - name: last_purchased_at
         description: Most recent purchase timestamp
       - name: total_purchases
@@ -92,30 +95,14 @@ models:
 
   - name: mart_enrollment
     description: Enrollment detail mart - one row per Eduqat course enrollment
-    meta:
-      metrics:
-        number_of_enrollments:
-          type: count
-          description: Total number of enrollments
-        number_of_enrollments_started:
-          type: count_distinct
-          sql: "CASE WHEN ${enrollment_started_at} IS NOT NULL THEN ${enrollment_id} END"
-          description: Number of enrollments that have been started
-        number_of_enrollments_completed:
-          type: count_distinct
-          sql: "CASE WHEN ${completed_at} IS NOT NULL THEN ${enrollment_id} END"
-          description: Number of enrollments that have been completed
-        avg_days_to_course_start:
-          type: average
-          sql: "EXTRACT(EPOCH FROM (${enrollment_started_at} - ${enrolled_at})) / 86400"
-          description: Average days from enrollment to course start
-        avg_course_completion_days:
-          type: average
-          sql: "EXTRACT(EPOCH FROM (${completed_at} - ${enrollment_started_at})) / 86400"
-          description: Average days from course start to completion
     columns:
       - name: enrollment_id
         description: Unique enrollment ID
+        meta:
+          metrics:
+            number_of_enrollments:
+              type: count_distinct
+              description: Total number of enrollments
       - name: uid
         description: UID
       - name: course_id
@@ -136,8 +123,18 @@ models:
         description: User name
       - name: enrollment_started_at
         description: Enrollment start timestamp
+        meta:
+          metrics:
+            number_of_enrollments_started:
+              type: count_distinct
+              description: Number of enrollments that have been started
       - name: completed_at
         description: Completion timestamp
+        meta:
+          metrics:
+            number_of_enrollments_completed:
+              type: count_distinct
+              description: Number of enrollments that have been completed
       - name: expires_at
         description: Expiration timestamp
       - name: enrolled_at
