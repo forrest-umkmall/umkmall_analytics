@@ -10,15 +10,15 @@ models:
           description: Total number of unique contacts
         number_of_emails:
           type: count
-          sql: "CASE WHEN ${email} IS NOT NULL THEN 1 END"
+          sql: "CASE WHEN ${TABLE}.email IS NOT NULL THEN 1 END"
           description: Number of contacts with email addresses
         number_of_wa:
           type: count
-          sql: "CASE WHEN ${phone_number} IS NOT NULL THEN 1 END"
+          sql: "CASE WHEN ${TABLE}.phone_number IS NOT NULL THEN 1 END"
           description: Number of contacts with WhatsApp/phone numbers
         number_of_product_users:
           type: count
-          sql: "CASE WHEN ${first_purchased_at} IS NOT NULL THEN 1 END"
+          sql: "CASE WHEN ${TABLE}.first_purchased_at IS NOT NULL THEN 1 END"
           description: Number of contacts who have made a purchase
     columns:
       - name: contact_key
@@ -99,19 +99,19 @@ models:
           description: Total number of enrollments
         number_of_enrollments_started:
           type: count
-          sql: "CASE WHEN ${enrollment_started_at} IS NOT NULL THEN 1 END"
+          sql: "CASE WHEN ${TABLE}.enrollment_started_at IS NOT NULL THEN 1 END"
           description: Number of enrollments that have been started
         number_of_enrollments_completed:
           type: count
-          sql: "CASE WHEN ${completed_at} IS NOT NULL THEN 1 END"
+          sql: "CASE WHEN ${TABLE}.completed_at IS NOT NULL THEN 1 END"
           description: Number of enrollments that have been completed
         avg_days_to_course_start:
           type: average
-          sql: "EXTRACT(EPOCH FROM (${enrollment_started_at} - ${enrolled_at})) / 86400"
+          sql: "EXTRACT(EPOCH FROM (${TABLE}.enrollment_started_at - ${TABLE}.enrolled_at)) / 86400"
           description: Average days from enrollment to course start
         avg_course_completion_days:
           type: average
-          sql: "EXTRACT(EPOCH FROM (${completed_at} - ${enrollment_started_at})) / 86400"
+          sql: "EXTRACT(EPOCH FROM (${TABLE}.completed_at - ${TABLE}.enrollment_started_at)) / 86400"
           description: Average days from course start to completion
     columns:
       - name: enrollment_id
