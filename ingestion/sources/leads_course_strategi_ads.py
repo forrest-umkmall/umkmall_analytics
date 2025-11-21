@@ -12,7 +12,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from ingestion.lib.gsheets_client import GSheetsClient
-from ingestion.lib.column_mappings import apply_column_mapping, normalize_dataframe
+from ingestion.lib.column_mappings import apply_column_mapping
 from ingestion.utils.db import get_db_connection
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,6 @@ def ingest_leads_course_strategi_ads():
         logger.info(f"Extracted {len(df)} rows")
 
         df = apply_column_mapping(df)
-        df = normalize_dataframe(df)
         df['data_source'] = SOURCE_NAME
         df['extracted_at'] = datetime.utcnow()
 

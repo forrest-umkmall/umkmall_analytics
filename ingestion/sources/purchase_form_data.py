@@ -14,7 +14,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from ingestion.lib.postgres_client import PostgresClient
-from ingestion.lib.column_mappings import apply_column_mapping, normalize_dataframe
+from ingestion.lib.column_mappings import apply_column_mapping
 from ingestion.utils.db import get_db_connection
 
 logger = logging.getLogger(__name__)
@@ -60,9 +60,6 @@ def ingest_purchase_data():
 
             # Apply column mapping
             df = apply_column_mapping(df)
-
-            # Normalize fields
-            df = normalize_dataframe(df)
 
             # Add metadata
             df['data_source'] = SOURCE_NAME

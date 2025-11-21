@@ -7,7 +7,6 @@ across all data sources.
 
 from typing import Dict, Any
 import pandas as pd
-from .data_cleaning import normalize_phone_number, normalize_email
 
 
 # Global column mapping - handles common variations across all sources
@@ -109,28 +108,3 @@ def apply_column_mapping(df: pd.DataFrame, mapping: Dict[str, str] = None) -> pd
     return df
 
 
-def normalize_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Apply standard normalizations to a DataFrame.
-
-    Normalizes:
-    - email addresses (lowercase, trimmed)
-    - phone numbers (Indonesian format +62XXXXXXXXX)
-
-    Args:
-        df: Input DataFrame
-
-    Returns:
-        DataFrame with normalized columns
-    """
-    df = df.copy()
-
-    # Normalize email if present
-    if 'email' in df.columns:
-        df['email'] = df['email'].apply(normalize_email)
-
-    # Normalize phone if present
-    if 'phone_number' in df.columns:
-        df['phone_number'] = df['phone_number'].apply(normalize_phone_number)
-
-    return df
