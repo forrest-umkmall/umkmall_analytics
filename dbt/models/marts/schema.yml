@@ -1,26 +1,176 @@
 version: 2
 
 models:
-  - name: mart_all_data_by_contact
-    description: Deduplicated enriched contacts combining marketing leads and purchase data
+  - name: mart_contact
+    description: Unified contact mart - one row per email-phone pair, integrating marketing leads, purchases, and Eduqat data
+    meta:
+      metrics:
+        number_of_contacts:
+          type: count
+          description: Total number of unique contacts
+        number_of_emails:
+          type: count
+          sql: "CASE WHEN ${email} IS NOT NULL THEN 1 END"
+          description: Number of contacts with email addresses
+        number_of_wa:
+          type: count
+          sql: "CASE WHEN ${phone_number} IS NOT NULL THEN 1 END"
+          description: Number of contacts with WhatsApp/phone numbers
+        number_of_product_users:
+          type: count
+          sql: "CASE WHEN ${first_purchased_at} IS NOT NULL THEN 1 END"
+          description: Number of contacts who have made a purchase
     columns:
+      - name: contact_key
+        description: Composite key (email|phone) for contact identification
       - name: email
         description: Contact email address
       - name: phone_number
-        description: Contact phone number
+        description: Contact phone number (+62 format)
+      - name: first_name
+        description: Contact first name (from purchase, eduqat, or marketing)
+      - name: last_name
+        description: Contact last name (from purchase, eduqat, or marketing)
+      - name: first_purchased_at
+        description: First purchase timestamp
+      - name: last_purchased_at
+        description: Most recent purchase timestamp
+      - name: total_purchases
+        description: Total number of purchases
+      - name: eduqat_user_id
+        description: Eduqat user ID
+      - name: eduqat_role
+        description: Eduqat user role
+      - name: eduqat_status
+        description: Eduqat account status
+      - name: eduqat_total_enrollments
+        description: Total Eduqat enrollments from user record
+      - name: eduqat_last_login_at
+        description: Last Eduqat login timestamp
+      - name: eduqat_created_at
+        description: Eduqat account creation timestamp
+      - name: enrolled_courses_count
+        description: Number of courses enrolled in
+      - name: total_learning_time_seconds
+        description: Total learning time in seconds
+      - name: avg_learning_progress
+        description: Average learning progress percentage
+      - name: total_certificates
+        description: Total certificates earned
+      - name: prakerja_enrollments_count
+        description: Number of Prakerja program enrollments
+      - name: last_enrollment_at
+        description: Most recent enrollment timestamp
+      - name: provinsi_usaha
+        description: Province of business
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: lama_usaha
+        description: Business duration/age
+      - name: nama_usaha
+        description: Business name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community
+      - name: memiliki_nib
+        description: Has NIB (business registration)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification
+      - name: marketing_data_source
+        description: Marketing data source identifier
+      - name: marketing_sheet_name
+        description: Marketing source Google Sheet name
+      - name: marketing_timestamp
+        description: Marketing form submission timestamp
+      - name: last_activity_at
+        description: Most recent activity timestamp across all sources
 
-  - name: mart_marketing_data
-    description: Deduplicated marketing leads from all Google Sheets sources
+  - name: mart_enrollment
+    description: Enrollment detail mart - one row per Eduqat course enrollment
+    meta:
+      metrics:
+        number_of_enrollments:
+          type: count
+          description: Total number of enrollments
+        number_of_enrollments_started:
+          type: count
+          sql: "CASE WHEN ${enrollment_started_at} IS NOT NULL THEN 1 END"
+          description: Number of enrollments that have been started
+        number_of_enrollments_completed:
+          type: count
+          sql: "CASE WHEN ${completed_at} IS NOT NULL THEN 1 END"
+          description: Number of enrollments that have been completed
+        avg_days_to_course_start:
+          type: average
+          sql: "EXTRACT(EPOCH FROM (${enrollment_started_at} - ${enrolled_at})) / 86400"
+          description: Average days from enrollment to course start
+        avg_course_completion_days:
+          type: average
+          sql: "EXTRACT(EPOCH FROM (${completed_at} - ${enrollment_started_at})) / 86400"
+          description: Average days from course start to completion
     columns:
+      - name: enrollment_id
+        description: Unique enrollment ID
+      - name: uid
+        description: UID
+      - name: course_id
+        description: Course ID
+      - name: price_id
+        description: Price ID
+      - name: schedule_id
+        description: Schedule ID
+      - name: order_uid
+        description: Order UID
+      - name: user_id
+        description: User ID
       - name: email
-        description: Lead email address
+        description: User email (for joining to mart_contact)
       - name: phone_number
-        description: Lead phone number
-
-  - name: mart_product_data
-    description: Customer purchase transactions from product database
-    columns:
-      - name: email
-        description: Customer email address
-      - name: phone_number
-        description: Customer phone number
+        description: User phone number
+      - name: user_name
+        description: User name
+      - name: enrollment_started_at
+        description: Enrollment start timestamp
+      - name: completed_at
+        description: Completion timestamp
+      - name: expires_at
+        description: Expiration timestamp
+      - name: enrolled_at
+        description: Enrollment creation timestamp
+      - name: learning_progress
+        description: Learning progress percentage (0-100)
+      - name: learning_time_seconds
+        description: Total learning time in seconds
+      - name: total_tracked_time_seconds
+        description: Total tracked time in seconds
+      - name: last_tracked_at
+        description: Last tracking timestamp
+      - name: enrollment_type
+        description: Type of enrollment
+      - name: timezone
+        description: User timezone
+      - name: prakerja_id
+        description: Prakerja program ID
+      - name: is_prakerja_user
+        description: Whether user is in Prakerja program
+      - name: prakerja_redeem_code
+        description: Prakerja redemption code
+      - name: prakerja_redeem_at
+        description: Prakerja redemption timestamp
+      - name: certificate_count
+        description: Number of certificates earned
+      - name: certificates
+        description: Certificate details (JSONB)
+      - name: completions
+        description: Completion details (JSONB)
+      - name: order_data
+        description: Order data (JSONB)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp

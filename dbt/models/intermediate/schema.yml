@@ -7,18 +7,34 @@ models:
       - name: email
         description: Normalized lead email
       - name: phone_number
-        description: Normalized lead phone
+        description: Normalized lead phone (+62 format)
+      - name: nama_usaha
+        description: Business name
+      - name: nama_pemilik_usaha
+        description: Business owner name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: lama_usaha
+        description: Business duration/age
+      - name: provinsi_usaha
+        description: Province of business
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community
+      - name: memiliki_nib
+        description: Has NIB (business registration)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification
+      - name: timestamp
+        description: Form submission timestamp
+      - name: sheet_name
+        description: Source Google Sheet name
       - name: data_source
         description: Source identifier
-
-  - name: int_enriched_contacts
-    description: Marketing leads merged with purchase data for contact enrichment
-    columns:
-      - name: email
-        description: Contact email (from either source)
-      - name: phone_number
-        description: Contact phone (from either source)
-      - name: marketing_data_source
-        description: Marketing source identifier
-      - name: purchase_data_source
-        description: Purchase source identifier
+      - name: extracted_at
+        description: Data extraction timestamp

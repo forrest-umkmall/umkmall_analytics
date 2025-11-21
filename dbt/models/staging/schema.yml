@@ -5,9 +5,19 @@ models:
     description: Staged purchase form data from Supabase
     columns:
       - name: email
-        description: Normalized customer email
+        description: Customer email address
       - name: phone_number
-        description: Normalized customer phone (+62 format)
+        description: Customer phone number
+      - name: customer_first_name
+        description: Customer first name
+      - name: customer_last_name
+        description: Customer last name
+      - name: paid_at
+        description: Payment timestamp
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
 
   - name: stg_leads_ads_community
     description: Staged leads from Ads Community Google Sheets
@@ -16,6 +26,38 @@ models:
         description: Normalized lead email
       - name: phone_number
         description: Normalized lead phone (+62 format)
+      - name: nama_usaha
+        description: Business name
+      - name: nama_pemilik_usaha
+        description: Business owner name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: lama_usaha
+        description: Business duration/age
+      - name: provinsi_usaha
+        description: Province of business
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community
+      - name: memiliki_nib
+        description: Has NIB (business registration)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification
+      - name: timestamp
+        description: Form submission timestamp
+      - name: sheet_name
+        description: Source Google Sheet name
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+      - name: composite_key
+        description: Deduplication key (email|phone)
 
   - name: stg_website_form_responses
     description: Staged leads from Website Form Google Sheets
@@ -24,6 +66,38 @@ models:
         description: Normalized lead email
       - name: phone_number
         description: Normalized lead phone (+62 format)
+      - name: nama_usaha
+        description: Business name
+      - name: nama_pemilik_usaha
+        description: Business owner name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name (null for this source)
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: lama_usaha
+        description: Business duration/age
+      - name: provinsi_usaha
+        description: Province of business
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community (null for this source)
+      - name: memiliki_nib
+        description: Has NIB (null for this source)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification (null for this source)
+      - name: timestamp
+        description: Form submission timestamp
+      - name: sheet_name
+        description: Source Google Sheet name
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+      - name: composite_key
+        description: Deduplication key (email|phone)
 
   - name: stg_leads_course_strategi_ads
     description: Staged leads from Course Strategy Ads Google Sheets
@@ -32,6 +106,38 @@ models:
         description: Normalized lead email
       - name: phone_number
         description: Normalized lead phone (+62 format)
+      - name: nama_usaha
+        description: Business name
+      - name: nama_pemilik_usaha
+        description: Business owner name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: lama_usaha
+        description: Business duration/age
+      - name: provinsi_usaha
+        description: Province of business
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community (null for this source)
+      - name: memiliki_nib
+        description: Has NIB (business registration)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification (null for this source)
+      - name: timestamp
+        description: Form submission timestamp
+      - name: sheet_name
+        description: Source Google Sheet name
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+      - name: composite_key
+        description: Deduplication key (email|phone)
 
   - name: stg_branding_level_up
     description: Staged leads from Branding Level Up Google Sheets
@@ -40,3 +146,163 @@ models:
         description: Normalized lead email
       - name: phone_number
         description: Normalized lead phone (+62 format)
+      - name: nama_usaha
+        description: Business name
+      - name: nama_pemilik_usaha
+        description: Business owner name
+      - name: nama_akun_media_sosial
+        description: Social media account name
+      - name: nama_akun_ecommerce
+        description: E-commerce account name
+      - name: bidang_usaha
+        description: Business sector/field
+      - name: lama_usaha
+        description: Business duration/age
+      - name: provinsi_usaha
+        description: Province of business
+      - name: pendapatan_bulanan
+        description: Monthly revenue
+      - name: tergabung_komunitas_umkm
+        description: Member of UMKM community
+      - name: memiliki_nib
+        description: Has NIB (business registration)
+      - name: memiliki_sertifikasi_halal
+        description: Has halal certification
+      - name: timestamp
+        description: Form submission timestamp
+      - name: sheet_name
+        description: Source Google Sheet name
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+      - name: composite_key
+        description: Deduplication key (email|phone)
+
+  - name: stg_eduqat_users
+    description: Staged Eduqat user accounts
+    columns:
+      - name: id
+        description: Primary user ID
+      - name: user_id
+        description: User ID (same as id)
+      - name: subid
+        description: UUID identifier
+      - name: name
+        description: User display name
+      - name: user_name
+        description: Username
+      - name: email
+        description: User email address
+      - name: phone_number
+        description: User phone number
+      - name: phone_country
+        description: Phone country
+      - name: phone_country_calling_code
+        description: Country calling code
+      - name: description
+        description: User description/bio
+      - name: avatar_url
+        description: Profile picture URL
+      - name: role
+        description: User role (learner, admin, user)
+      - name: status
+        description: Account status (ACTIVE, CONFIRMED)
+      - name: total_course
+        description: Number of courses created
+      - name: total_enrollment
+        description: Number of course enrollments
+      - name: pre_signup_at
+        description: Pre-signup timestamp
+      - name: confirmed_at
+        description: Account confirmation timestamp
+      - name: last_loggin_at
+        description: Last login timestamp
+      - name: created_at
+        description: Account creation timestamp
+      - name: stripe_customer_ids
+        description: Stripe customer IDs (JSONB)
+      - name: metadata
+        description: Additional metadata (JSONB)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+
+  - name: stg_eduqat_enrollments
+    description: Staged Eduqat course enrollments
+    columns:
+      - name: enrollment_id
+        description: Unique enrollment ID
+      - name: uid
+        description: UID
+      - name: user_id
+        description: User ID
+      - name: course_id
+        description: Course ID
+      - name: price_id
+        description: Price ID
+      - name: schedule_id
+        description: Schedule ID
+      - name: order_uid
+        description: Order UID
+      - name: user_name
+        description: User name (from user_data JSONB)
+      - name: user_email
+        description: User email (from user_data JSONB)
+      - name: user_phone
+        description: User phone (from user_data JSONB)
+      - name: user_role
+        description: User role (from user_data JSONB)
+      - name: user_status
+        description: User status (from user_data JSONB)
+      - name: user_created_at
+        description: User creation timestamp (from user_data JSONB)
+      - name: enrollment_started_at
+        description: Enrollment start timestamp
+      - name: completed_at
+        description: Completion timestamp
+      - name: expires_at
+        description: Expiration timestamp
+      - name: created_at
+        description: Enrollment creation timestamp
+      - name: learning_progress
+        description: Learning progress percentage (0-100)
+      - name: learning_time
+        description: Total learning time in seconds
+      - name: total_tracked_time
+        description: Total tracked time from metadata
+      - name: last_tracked_at
+        description: Last tracking timestamp
+      - name: enrollment_type
+        description: Type of enrollment
+      - name: timezone
+        description: User timezone
+      - name: order_data
+        description: Order data (JSONB)
+      - name: prakerja_id
+        description: Prakerja program ID
+      - name: is_prakerja_user
+        description: Whether user is in Prakerja program
+      - name: prakerja_redeem_code
+        description: Prakerja redemption code
+      - name: prakerja_redeem_at
+        description: Prakerja redemption timestamp
+      - name: certificate_count
+        description: Number of certificates earned
+      - name: user_data
+        description: Full user data (JSONB)
+      - name: metadata
+        description: Enrollment metadata (JSONB)
+      - name: completions
+        description: Completion details (JSONB)
+      - name: certificates
+        description: Certificate details (JSONB)
+      - name: user_groups
+        description: User groups (JSONB)
+      - name: user_group_admins
+        description: User group admins (JSONB)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
