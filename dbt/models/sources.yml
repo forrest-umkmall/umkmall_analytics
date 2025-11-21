@@ -63,3 +63,27 @@ sources:
             description: Original sheet name in the spreadsheet
           - name: data_source
             description: Source identifier
+
+      - name: eduqat_enrollments
+        description: Course enrollment data from Eduqat API
+        columns:
+          - name: id
+            description: Unique enrollment identifier
+          - name: user_id
+            description: User identifier
+          - name: course_id
+            description: Course identifier
+          - name: user_data
+            description: JSONB containing user information (name, email, phone, etc.)
+          - name: metadata
+            description: JSONB containing enrollment metadata including started_at, tracked_time
+          - name: completions
+            description: JSONB containing material completion data
+          - name: certificates
+            description: JSONB array of earned certificates
+          - name: learning_progress
+            description: Progress percentage (0-100)
+          - name: learning_time
+            description: Total learning time in seconds
+          - name: data_source
+            description: Source identifier

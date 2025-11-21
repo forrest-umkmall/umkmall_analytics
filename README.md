@@ -2,8 +2,15 @@
 
 A modern, cost-effective analytics platform built with dbt and Lightdash, designed for small teams (up to 20 users).
 
+Command to run sample ingestion source:
+`uv run --env-file .env.local ingestion/sources/eduqat_enrollments.py`
+
 Command to run db pipeline locally (connected to railway db):
 `uv run --env-file .env.local dbt run --project-dir ./dbt --profiles-dir ./dbt`
+
+Command to run single model in pipeline locally (connected to railway db):
+`uv run --env-file .env.local dbt run --project-dir ./dbt --profiles-dir ./dbt --select stg_eduqat_enrollments`
+
 
 ## Architecture
 
