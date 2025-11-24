@@ -31,17 +31,17 @@ models:
         description: Contact last name (from purchase, eduqat, or marketing)
       - name: first_purchased_at
         description: First purchase timestamp
-        meta:
-          metrics:
-            number_of_product_users:
-              type: count_distinct
-              description: Number of contacts who have made a purchase
       - name: last_purchased_at
         description: Most recent purchase timestamp
       - name: total_purchases
         description: Total number of purchases
       - name: eduqat_user_id
         description: Eduqat user ID
+        meta:
+          metrics:
+            number_of_product_users:
+              type: count_distinct
+              description: Number of contacts who have made a purchase
       - name: eduqat_role
         description: Eduqat user role
       - name: eduqat_status
