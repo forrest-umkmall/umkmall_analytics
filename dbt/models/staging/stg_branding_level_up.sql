@@ -16,6 +16,7 @@ with source as (
         {{ normalize_business_age('lama_usaha') }} as lama_usaha,
         provinsi_usaha,
         {{ normalize_income('pendapatan_bulanan') }} as pendapatan_bulanan,
+        null as jumlah_karyawan,  -- not present in this source
         tergabung_komunitas_umkm,
         memiliki_nib,
         memiliki_sertifikasi_halal,

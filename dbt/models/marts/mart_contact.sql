@@ -115,6 +115,7 @@ combined as (
         m.bidang_usaha,
         m.pendapatan_bulanan,
         m.lama_usaha,
+        m.jumlah_karyawan,
 
         -- Business details
         m.nama_usaha,
