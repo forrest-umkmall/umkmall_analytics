@@ -6,16 +6,16 @@
 
 with source as (
     select
-        email,
-        phone_number,
+        {{ normalize_email('email') }} as email,
+        {{ normalize_phone_number('phone_number') }} as phone_number,
         nama_usaha,
         nama_pemilik_usaha,
         nama_akun_media_sosial,
         nama_akun_ecommerce,
         bidang_usaha_yang_sedang_dijalankan_saat_ini_cth_pakaian_makana as bidang_usaha,
-        lama_usaha,
+        {{ normalize_business_age('lama_usaha') }} as lama_usaha,
         provinsi_usaha,
-        pendapatan_bulanan,
+        {{ normalize_income('pendapatan_bulanan') }} as pendapatan_bulanan,
         tergabung_komunitas_umkm,
         memiliki_nib,
         memiliki_sertifikasi_halal,
