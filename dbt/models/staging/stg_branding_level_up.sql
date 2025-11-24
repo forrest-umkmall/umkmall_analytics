@@ -15,6 +15,7 @@ with source as (
         bidang_usaha_yang_sedang_dijalankan_saat_ini_cth_pakaian_makana as bidang_usaha,
         {{ normalize_business_age('lama_usaha') }} as lama_usaha,
         provinsi_usaha,
+        null as kota_kabupaten,  -- not present in this source
         {{ normalize_income('pendapatan_bulanan') }} as pendapatan_bulanan,
         null as jumlah_karyawan,  -- not present in this source
         tergabung_komunitas_umkm,

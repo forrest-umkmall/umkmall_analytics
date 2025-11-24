@@ -112,6 +112,7 @@ combined as (
 
         -- Marketing geography & business info
         m.provinsi_usaha,
+        m.kota_kabupaten,
         m.bidang_usaha,
         m.pendapatan_bulanan,
         m.lama_usaha,

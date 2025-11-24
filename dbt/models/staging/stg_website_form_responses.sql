@@ -21,8 +21,9 @@ normalized as (
         bidang_usaha,
         {{ normalize_business_age('lama_usaha') }} as lama_usaha,
         provinsi_usaha,
+        nullif(trim(di_kota_mana_anda_menjalankan_usaha_anda), '') as kota_kabupaten,
         {{ normalize_income('pendapatan_bulanan') }} as pendapatan_bulanan,
-        berapa_jumlah_karyawan_yang_anda_miliki as jumlah_karyawan,
+        nullif(trim(berapa_jumlah_karyawan_yang_anda_miliki), '') as jumlah_karyawan,
         null as tergabung_komunitas_umkm,  -- not present in this source
         null as memiliki_nib,  -- not present in this source
         null as memiliki_sertifikasi_halal,  -- not present in this source
@@ -61,6 +62,7 @@ select
     bidang_usaha,
     lama_usaha,
     provinsi_usaha,
+    kota_kabupaten,
     pendapatan_bulanan,
     jumlah_karyawan,
     tergabung_komunitas_umkm,
