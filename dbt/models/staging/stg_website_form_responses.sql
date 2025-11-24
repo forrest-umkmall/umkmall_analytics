@@ -23,7 +23,7 @@ normalized as (
         provinsi_usaha,
         nullif(trim(di_kota_mana_anda_menjalankan_usaha_anda), '') as kota_kabupaten,
         {{ normalize_income('pendapatan_bulanan') }} as pendapatan_bulanan,
-        nullif(trim(berapa_jumlah_karyawan_yang_anda_miliki), '') as jumlah_karyawan,
+        {{ normalize_employee_count('nullif(trim(berapa_jumlah_karyawan_yang_anda_miliki), \'\')') }} as jumlah_karyawan,
         null as tergabung_komunitas_umkm,  -- not present in this source
         null as memiliki_nib,  -- not present in this source
         null as memiliki_sertifikasi_halal,  -- not present in this source
