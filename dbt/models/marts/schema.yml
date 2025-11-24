@@ -66,12 +66,16 @@ models:
         description: Most recent enrollment timestamp
       - name: provinsi_usaha
         description: Province of business
+      - name: kota_kabupaten
+        description: City/regency of business
       - name: bidang_usaha
         description: Business sector/field
       - name: pendapatan_bulanan
         description: Monthly revenue
       - name: lama_usaha
         description: Business duration/age
+      - name: jumlah_karyawan
+        description: Number of employees
       - name: nama_usaha
         description: Business name
       - name: nama_akun_media_sosial
