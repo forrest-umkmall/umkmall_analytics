@@ -7,6 +7,7 @@ Provides methods to interact with the Eduqat public API.
 import os
 import json
 import urllib.request
+import urllib.parse
 import urllib.error
 from typing import Any, Optional
 from dotenv import load_dotenv
@@ -44,7 +45,8 @@ class EduqatClient:
         self,
         endpoint: str,
         method: str = 'GET',
-        body: Optional[dict] = None
+        body: Optional[dict] = None,
+        params: Optional[dict] = None
     ) -> dict:
         """
         Make an HTTP request to the Eduqat API.
@@ -53,6 +55,7 @@ class EduqatClient:
             endpoint: API endpoint (e.g., '/manage/admin/enrollments')
             method: HTTP method (GET, POST, etc.)
             body: Optional request body for POST requests
+            params: Optional query parameters for GET requests
 
         Returns:
             Parsed JSON response
@@ -61,6 +64,11 @@ class EduqatClient:
             EduqatApiError: If the request fails
         """
         url = f'{self.base_url}{endpoint}'
+
+        # Add query parameters if provided
+        if params:
+            query_string = urllib.parse.urlencode(params)
+            url = f'{url}?{query_string}'
 
         headers = {
             'Content-Type': 'application/json',
@@ -89,12 +97,23 @@ class EduqatClient:
         except Exception as e:
             raise EduqatApiError(f'Unexpected error: {str(e)}')
 
-    def get_enrollments(self) -> dict:
+    def get_enrollments(self, page: Optional[int] = None, limit: Optional[int] = None) -> dict:
         """
         Get all enrollments from /manage/admin/enrollments.
 
+        Automatically fetches all pages if page/limit are not provided.
+
+        Args:
+            page: Optional specific page to fetch (1-indexed)
+            limit: Optional number of items per page
+
         Returns:
             Dict with 'count' and 'items' keys containing enrollment data.
+
+        Note:
+            As of 2025-11-26, the Eduqat API appears to have a limitation where
+            pagination parameters (page, limit) are not respected. The pagination
+            logic below is implemented for when/if the API is fixed.
 
         Example response structure:
             {
@@ -118,14 +137,61 @@ class EduqatClient:
                 ]
             }
         """
-        return self._make_request('/manage/admin/enrollments')
+        # If specific page/limit requested, return single page
+        if page is not None or limit is not None:
+            params = {}
+            if page is not None:
+                params['page'] = page
+            if limit is not None:
+                params['limit'] = limit
+            response = self._make_request('/manage/admin/enrollments', params=params)
+            # Return actual count based on items fetched, not API's count field
+            return {
+                'count': len(response.get('items', [])),
+                'items': response.get('items', [])
+            }
 
-    def get_users(self) -> dict:
+        # Otherwise, fetch all pages automatically
+        all_items = []
+        page = 1
+        page_limit = 100  # Use a larger page size for efficiency
+
+        while True:
+            params = {'page': page, 'limit': page_limit}
+            response = self._make_request('/manage/admin/enrollments', params=params)
+
+            items = response.get('items', [])
+            all_items.extend(items)
+
+            # If we got fewer items than the limit, we've reached the last page
+            if len(items) < page_limit:
+                break
+
+            page += 1
+
+        return {
+            'count': len(all_items),
+            'items': all_items
+        }
+
+    def get_users(self, page: Optional[int] = None, limit: Optional[int] = None) -> dict:
         """
         Get all users from /manage/admin/users.
 
+        Automatically fetches all pages if page/limit are not provided.
+
+        Args:
+            page: Optional specific page to fetch (1-indexed)
+            limit: Optional number of items per page
+
         Returns:
             Dict with 'count' and 'items' keys containing user data.
+
+        Note:
+            As of 2025-11-26, the Eduqat API appears to have a limitation where
+            pagination parameters (page, limit) are not respected. The API returns
+            a maximum of 25 items regardless of parameters. The pagination logic
+            below is implemented for when/if the API is fixed.
 
         Example response structure:
             {
@@ -149,7 +215,42 @@ class EduqatClient:
                 ]
             }
         """
-        return self._make_request('/manage/admin/users')
+        # If specific page/limit requested, return single page
+        if page is not None or limit is not None:
+            params = {}
+            if page is not None:
+                params['page'] = page
+            if limit is not None:
+                params['limit'] = limit
+            response = self._make_request('/manage/admin/users', params=params)
+            # Return actual count based on items fetched, not API's count field
+            return {
+                'count': len(response.get('items', [])),
+                'items': response.get('items', [])
+            }
+
+        # Otherwise, fetch all pages automatically
+        all_items = []
+        page = 1
+        page_limit = 100  # Use a larger page size for efficiency
+
+        while True:
+            params = {'page': page, 'limit': page_limit}
+            response = self._make_request('/manage/admin/users', params=params)
+
+            items = response.get('items', [])
+            all_items.extend(items)
+
+            # If we got fewer items than the limit, we've reached the last page
+            if len(items) < page_limit:
+                break
+
+            page += 1
+
+        return {
+            'count': len(all_items),
+            'items': all_items
+        }
 
     def get(self, endpoint: str) -> dict:
         """
