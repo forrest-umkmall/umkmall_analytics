@@ -147,6 +147,12 @@ models:
         description: Learning progress percentage (0-100)
       - name: learning_time_seconds
         description: Total learning time in seconds
+        meta:
+          metrics:
+            total_learning_time_min:
+              type: sum
+              description: Total learning time in minutes (with decimal places)
+              sql: "ROUND(${learning_time_seconds}::numeric / 60, 2)"
       - name: total_tracked_time_seconds
         description: Total tracked time in seconds
       - name: last_tracked_at
