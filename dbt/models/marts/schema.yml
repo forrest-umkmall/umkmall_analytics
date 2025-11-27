@@ -125,6 +125,8 @@ models:
         description: User phone number
       - name: user_name
         description: User name
+      - name: course_name
+        description: Course name/title
       - name: enrollment_started_at
         description: Enrollment start timestamp
         meta:

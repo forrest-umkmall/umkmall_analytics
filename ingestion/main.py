@@ -49,6 +49,7 @@ def run_ingestion_scripts():
     from ingestion.sources import branding_level_up
     from ingestion.sources import eduqat_enrollments
     from ingestion.sources import eduqat_users
+    from ingestion.sources import eduqat_courses
 
     sources = [
         ("purchase_form_data", purchase_form_data.ingest_purchase_data),
@@ -58,6 +59,7 @@ def run_ingestion_scripts():
         ("branding_level_up", branding_level_up.ingest_branding_level_up),
         ("eduqat_enrollments", eduqat_enrollments.ingest_eduqat_enrollments),
         ("eduqat_users", eduqat_users.ingest_eduqat_users),
+        ("eduqat_courses", eduqat_courses.ingest_eduqat_courses),
     ]
 
     for source_name, ingest_func in sources:

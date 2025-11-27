@@ -115,3 +115,29 @@ sources:
             description: Account creation timestamp
           - name: data_source
             description: Source identifier
+
+      - name: eduqat_courses
+        description: Course data from Eduqat API
+        columns:
+          - name: id
+            description: Unique course identifier
+          - name: name
+            description: Course name/title
+          - name: slug
+            description: URL-friendly course identifier
+          - name: description
+            description: Course description (JSON text blocks)
+          - name: type
+            description: Course type (self-learn, live, etc.)
+          - name: status
+            description: Course status (active, hidden, etc.)
+          - name: duration
+            description: Course duration in seconds
+          - name: total_student
+            description: Total number of enrolled students
+          - name: rating
+            description: Course rating
+          - name: published_at
+            description: Course publication timestamp
+          - name: data_source
+            description: Source identifier

@@ -12,51 +12,56 @@ Can be joined to mart_contact via email for full contact context.
 
 select
     -- Enrollment identifiers
-    enrollment_id,
-    uid,
-    course_id,
-    price_id,
-    schedule_id,
-    order_uid,
+    e.enrollment_id,
+    e.uid,
+    e.course_id,
+    e.price_id,
+    e.schedule_id,
+    e.order_uid,
 
     -- User info (for joining to mart_contact)
-    user_id,
-    user_email as email,
-    user_phone as phone_number,
-    user_name,
+    e.user_id,
+    e.user_email as email,
+    e.user_phone as phone_number,
+    e.user_name,
+
+    -- Course info
+    c.course_name,
 
     -- Enrollment timing
-    enrollment_started_at,
-    completed_at,
-    expires_at,
-    created_at as enrolled_at,
+    e.enrollment_started_at,
+    e.completed_at,
+    e.expires_at,
+    e.created_at as enrolled_at,
 
     -- Progress metrics
-    learning_progress,
-    learning_time as learning_time_seconds,
-    total_tracked_time as total_tracked_time_seconds,
-    last_tracked_at,
+    e.learning_progress,
+    e.learning_time as learning_time_seconds,
+    e.total_tracked_time as total_tracked_time_seconds,
+    e.last_tracked_at,
 
     -- Enrollment metadata
-    enrollment_type,
-    timezone,
+    e.enrollment_type,
+    e.timezone,
 
     -- Prakerja program fields
-    prakerja_id,
-    is_prakerja_user,
-    prakerja_redeem_code,
-    prakerja_redeem_at,
+    e.prakerja_id,
+    e.is_prakerja_user,
+    e.prakerja_redeem_code,
+    e.prakerja_redeem_at,
 
     -- Certificate info
-    certificate_count,
+    e.certificate_count,
 
     -- Preserve nested JSON for detailed analysis
-    certificates,
-    completions,
-    order_data,
+    e.certificates,
+    e.completions,
+    e.order_data,
 
     -- Metadata
-    data_source,
-    extracted_at
+    e.data_source,
+    e.extracted_at
 
-from {{ ref('stg_eduqat_enrollments') }}
+from {{ ref('stg_eduqat_enrollments') }} e
+left join {{ ref('stg_eduqat_courses') }} c
+    on e.course_id = c.course_id
