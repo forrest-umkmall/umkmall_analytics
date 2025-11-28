@@ -53,10 +53,10 @@ def run_ingestion_scripts():
 
     sources = [
         ("purchase_form_data", purchase_form_data.ingest_purchase_data),
-        ("leads_ads_community", leads_ads_community.ingest_leads_ads_community),
-        ("website_form_responses", website_form_responses.ingest_website_form_responses),
-        ("leads_course_strategi_ads", leads_course_strategi_ads.ingest_leads_course_strategi_ads),
-        ("branding_level_up", branding_level_up.ingest_branding_level_up),
+        # ("leads_ads_community", leads_ads_community.ingest_leads_ads_community),
+        # ("website_form_responses", website_form_responses.ingest_website_form_responses),
+        # ("leads_course_strategi_ads", leads_course_strategi_ads.ingest_leads_course_strategi_ads),
+        # ("branding_level_up", branding_level_up.ingest_branding_level_up),
         ("eduqat_enrollments", eduqat_enrollments.ingest_eduqat_enrollments),
         ("eduqat_users", eduqat_users.ingest_eduqat_users),
         ("eduqat_courses", eduqat_courses.ingest_eduqat_courses),

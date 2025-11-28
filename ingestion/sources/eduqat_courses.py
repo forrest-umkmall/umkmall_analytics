@@ -42,7 +42,7 @@ def ingest_eduqat_courses():
         client = EduqatClient()
         logger.info("Connected to Eduqat API")
 
-        response = client.get('/manage/admin/courses')
+        response = client.get_courses()
         courses = response.get('items', [])
         count = response.get('count', len(courses))
 

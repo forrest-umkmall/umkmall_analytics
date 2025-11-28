@@ -74,7 +74,7 @@ def ingest_eduqat_enrollments():
                     price_id INTEGER,
                     schedule_id INTEGER,
                     order_uid VARCHAR(255),
-                    order_data BOOLEAN,
+                    order_data JSONB,
                     timezone VARCHAR(100),
                     learning_progress FLOAT,
                     learning_time INTEGER,
@@ -93,6 +93,19 @@ def ingest_eduqat_enrollments():
                     extracted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """)
+
+            # Fix order_data column type if it's wrong (migration from BOOLEAN to JSONB)
+            try:
+                cursor.execute(f"""
+                    ALTER TABLE raw.{SOURCE_NAME}
+                    ALTER COLUMN order_data TYPE JSONB USING order_data::text::jsonb;
+                """)
+                conn.commit()
+                logger.info("Migrated order_data column from BOOLEAN to JSONB")
+            except Exception as e:
+                # Column might already be JSONB or doesn't exist, rollback and continue
+                conn.rollback()
+                logger.debug(f"Could not alter order_data column (might already be correct type): {e}")
 
             # Truncate and reload (full refresh)
             cursor.execute(f"TRUNCATE TABLE raw.{SOURCE_NAME};")
@@ -136,7 +149,7 @@ def ingest_eduqat_enrollments():
                     enrollment.get('price_id'),
                     enrollment.get('schedule_id'),
                     enrollment.get('order_uid'),
-                    enrollment.get('order_data'),
+                    json.dumps(enrollment.get('order_data')) if enrollment.get('order_data') else None,
                     enrollment.get('timezone'),
                     enrollment.get('learning_progress'),
                     enrollment.get('learning_time'),

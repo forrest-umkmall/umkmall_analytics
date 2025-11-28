@@ -252,6 +252,73 @@ class EduqatClient:
             'items': all_items
         }
 
+    def get_courses(self, page: Optional[int] = None, limit: Optional[int] = None) -> dict:
+        """
+        Get all courses from /manage/admin/courses.
+
+        Automatically fetches all pages if page/limit are not provided.
+
+        Args:
+            page: Optional specific page to fetch (1-indexed)
+            limit: Optional number of items per page
+
+        Returns:
+            Dict with 'count' and 'items' keys containing course data.
+
+        Note:
+            Pagination logic is implemented to fetch all pages automatically.
+
+        Example response structure:
+            {
+                "count": 10,
+                "items": [
+                    {
+                        "id": 1,
+                        "name": "Course Name",
+                        "description": "Course description",
+                        ...
+                    },
+                    ...
+                ]
+            }
+        """
+        # If specific page/limit requested, return single page
+        if page is not None or limit is not None:
+            params = {}
+            if page is not None:
+                params['page'] = page
+            if limit is not None:
+                params['limit'] = limit
+            response = self._make_request('/manage/admin/courses', params=params)
+            # Return actual count based on items fetched, not API's count field
+            return {
+                'count': len(response.get('items', [])),
+                'items': response.get('items', [])
+            }
+
+        # Otherwise, fetch all pages automatically
+        all_items = []
+        page = 1
+        page_limit = 100  # Use a larger page size for efficiency
+
+        while True:
+            params = {'page': page, 'limit': page_limit}
+            response = self._make_request('/manage/admin/courses', params=params)
+
+            items = response.get('items', [])
+            all_items.extend(items)
+
+            # If we got fewer items than the limit, we've reached the last page
+            if len(items) < page_limit:
+                break
+
+            page += 1
+
+        return {
+            'count': len(all_items),
+            'items': all_items
+        }
+
     def get(self, endpoint: str) -> dict:
         """
         Make a GET request to any endpoint.
