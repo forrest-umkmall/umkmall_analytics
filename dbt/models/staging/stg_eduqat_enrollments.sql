@@ -24,9 +24,9 @@ select
 
     -- Enrollment timing
     (metadata->>'started_at')::timestamp as enrollment_started_at,
-    completed_at,
-    expires_at,
-    created_at,
+    completed_at as enrollment_completed_at,
+    expires_at as enrollment_expires_at,
+    created_at as enrollment_created_at,
 
     -- Progress metrics
     learning_progress,

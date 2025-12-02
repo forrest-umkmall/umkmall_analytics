@@ -6,7 +6,7 @@
 }}
 
 /*
-Enrollment detail mart - one row per Eduqat course enrollment.
+Enrollment materials mart - one row per material per enrollment.
 Can be joined to mart_contact via email for full contact context.
 */
 
@@ -28,11 +28,33 @@ select
     -- Course info
     c.course_name,
 
+    -- Material info
+    m.material_id,
+    m.material_type,
+    m.is_required as material_is_required,
+    m.started_at as material_started_at,
+    m.completed_at as material_completed_at,
+    m.tracked_time_seconds as material_tracked_time_seconds,
+
+    -- AI Tutor fields
+    m.ai_tutor_status,
+    m.conversation_id,
+    m.conversation_started_at,
+    m.conversation_ended_at,
+    m.submission_count,
+
+    -- Self-assessment fields
+    m.self_assessment_id,
+    m.self_assessment_library_id,
+    m.require_feedback,
+    m.require_file_upload,
+    m.require_educator_approval,
+
     -- Enrollment timing
     e.enrollment_started_at,
-    e.completed_at,
-    e.expires_at,
-    e.created_at as enrolled_at,
+    e.enrollment_completed_at,
+    e.enrollment_expires_at,
+    e.enrollment_created_at as enrolled_at,
 
     -- Progress metrics
     e.learning_progress,
@@ -65,3 +87,5 @@ select
 from {{ ref('stg_eduqat_enrollments') }} e
 left join {{ ref('stg_eduqat_courses') }} c
     on e.course_id = c.course_id
+left join {{ ref('stg_enrollment_materials') }} m
+    on e.enrollment_id = m.enrollment_id

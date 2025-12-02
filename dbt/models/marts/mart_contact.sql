@@ -67,7 +67,7 @@ eduqat_enrollments_agg as (
         avg(learning_progress) as avg_learning_progress,
         sum(certificate_count) as total_certificates,
         count(*) filter (where is_prakerja_user = true) as prakerja_enrollments_count,
-        max(created_at) as last_enrollment_at
+        max(enrollment_created_at) as last_enrollment_at
     from {{ ref('stg_eduqat_enrollments') }}
     where user_email is not null
     group by user_email

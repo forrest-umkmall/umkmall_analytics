@@ -306,3 +306,45 @@ models:
         description: Source identifier
       - name: extracted_at
         description: Data extraction timestamp
+
+  - name: stg_enrollment_materials
+    description: Staged enrollment materials unnested from eduqat_enrollments metadata. One row per material per enrollment.
+    columns:
+      - name: enrollment_id
+        description: Enrollment ID (foreign key to stg_eduqat_enrollments)
+      - name: user_id
+        description: User ID
+      - name: course_id
+        description: Course ID
+      - name: material_id
+        description: Material ID (extracted from JSONB key)
+      - name: material_type
+        description: Type of material (video, text, rich_text, self-assessment, ai_tutor, etc.)
+      - name: is_required
+        description: Whether the material is required for course completion
+      - name: started_at
+        description: Timestamp when user started the material
+      - name: completed_at
+        description: Timestamp when user completed the material
+      - name: tracked_time_seconds
+        description: Time spent on material in seconds
+      - name: ai_tutor_status
+        description: Status for AI tutor materials (DONE, etc.)
+      - name: conversation_id
+        description: AI tutor conversation ID
+      - name: conversation_started_at
+        description: AI tutor conversation start timestamp
+      - name: conversation_ended_at
+        description: AI tutor conversation end timestamp
+      - name: submission_count
+        description: Number of submissions for AI tutor
+      - name: self_assessment_id
+        description: Self-assessment ID
+      - name: self_assessment_library_id
+        description: Self-assessment library ID
+      - name: require_feedback
+        description: Whether self-assessment requires feedback
+      - name: require_file_upload
+        description: Whether self-assessment requires file upload
+      - name: require_educator_approval
+        description: Educator approval requirement level
