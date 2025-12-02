@@ -56,6 +56,18 @@ select
     e.enrollment_expires_at,
     e.enrollment_created_at as enrolled_at,
 
+    -- Marketing week metrics (ISO week: Monday-Sunday)
+    extract(week from e.enrollment_started_at)::int as started_at_marketing_week,
+    extract(isoyear from e.enrollment_started_at)::int as started_at_marketing_year,
+    extract(week from e.enrollment_completed_at)::int as completed_at_marketing_week,
+    extract(isoyear from e.enrollment_completed_at)::int as completed_at_marketing_year,
+
+    -- Days to complete (null if not yet completed)
+    case
+        when e.enrollment_completed_at is not null and e.enrollment_started_at is not null
+        then extract(day from (e.enrollment_completed_at - e.enrollment_started_at))::int
+    end as days_to_complete,
+
     -- Progress metrics
     e.learning_progress,
     e.learning_time as learning_time_seconds,

@@ -198,6 +198,33 @@ models:
         description: Expiration timestamp
       - name: enrolled_at
         description: Enrollment creation timestamp
+      - name: started_at_marketing_week
+        description: ISO week number (1-53) when enrollment started (Monday-Sunday weeks)
+        meta:
+          dimension:
+            type: number
+      - name: started_at_marketing_year
+        description: ISO year for the enrollment start date
+        meta:
+          dimension:
+            type: number
+      - name: completed_at_marketing_week
+        description: ISO week number (1-53) when enrollment completed (Monday-Sunday weeks)
+        meta:
+          dimension:
+            type: number
+      - name: completed_at_marketing_year
+        description: ISO year for the enrollment completion date
+        meta:
+          dimension:
+            type: number
+      - name: days_to_complete
+        description: Number of days between enrollment start and completion
+        meta:
+          metrics:
+            avg_days_to_complete:
+              type: average
+              description: Average number of days to complete an enrollment
       - name: learning_progress
         description: Learning progress percentage (0-100)
       - name: learning_time_seconds
