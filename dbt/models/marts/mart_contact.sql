@@ -102,6 +102,10 @@ combined as (
         eu.eduqat_last_login_at,
         eu.eduqat_created_at,
 
+        -- Eduqat created at marketing week (ISO week: Monday-Sunday)
+        extract(week from eu.eduqat_created_at)::int as eduqat_created_at_marketing_week,
+        extract(isoyear from eu.eduqat_created_at)::int as eduqat_created_at_marketing_year,
+
         -- Eduqat enrollment aggregates
         ea.enrolled_courses_count,
         ea.total_learning_time_seconds,

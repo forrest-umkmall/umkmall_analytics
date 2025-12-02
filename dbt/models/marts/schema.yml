@@ -52,6 +52,16 @@ models:
         description: Last Eduqat login timestamp
       - name: eduqat_created_at
         description: Eduqat account creation timestamp
+      - name: eduqat_created_at_marketing_week
+        description: ISO week number (1-53) when Eduqat account was created (Monday-Sunday weeks)
+        meta:
+          dimension:
+            type: number
+      - name: eduqat_created_at_marketing_year
+        description: ISO year for the Eduqat account creation date
+        meta:
+          dimension:
+            type: number
       - name: enrolled_courses_count
         description: Number of courses enrolled in
       - name: total_learning_time_seconds
