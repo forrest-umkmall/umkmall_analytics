@@ -9,10 +9,10 @@ with enrollment_materials as (
         id as enrollment_id,
         user_id,
         course_id,
-        jsonb_each(metadata->'materials') as material_record
+        jsonb_each(completions->'materials') as material_record
     from {{ source('raw', 'eduqat_enrollments') }}
-    where metadata->'materials' is not null
-      and jsonb_typeof(metadata->'materials') = 'object'
+    where completions->'materials' is not null
+      and jsonb_typeof(completions->'materials') = 'object'
 )
 
 select

@@ -77,7 +77,6 @@ select
 
     -- Preserve nested JSON for detailed analysis
     e.certificates,
-    e.completions,
     e.order_data,
 
     -- Metadata

@@ -51,7 +51,6 @@ select
     -- Preserve full nested JSON for detailed analysis
     user_data,
     metadata,
-    completions,
     certificates,
     user_groups,
     user_group_admins,

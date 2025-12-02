@@ -228,8 +228,6 @@ models:
         description: Number of certificates earned
       - name: certificates
         description: Certificate details (JSONB)
-      - name: completions
-        description: Completion details (JSONB)
       - name: order_data
         description: Order data (JSONB)
       - name: data_source
