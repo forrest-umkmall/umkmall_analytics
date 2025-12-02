@@ -98,7 +98,7 @@ models:
         description: Most recent activity timestamp across all sources
 
   - name: mart_enrollment
-    description: Enrollment materials mart - one row per material per enrollment. Can be joined to mart_contact via email.
+    description: Enrollment mart - one row per enrollment. Can be joined to mart_contact via email and mart_materials via enrollment_id.
     columns:
       - name: enrollment_id
         description: Unique enrollment ID
@@ -127,59 +127,6 @@ models:
         description: User name
       - name: course_name
         description: Course name/title
-      - name: material_id
-        description: Material ID
-        meta:
-          metrics:
-            number_of_materials:
-              type: count_distinct
-              description: Total number of unique materials
-      - name: material_type
-        description: Type of material (video, text, rich_text, self-assessment, ai_tutor, etc.)
-      - name: material_is_required
-        description: Whether the material is required for course completion
-      - name: material_started_at
-        description: Timestamp when user started the material
-        meta:
-          metrics:
-            number_of_materials_started:
-              type: count_distinct
-              description: Number of materials that have been started
-      - name: material_completed_at
-        description: Timestamp when user completed the material
-        meta:
-          metrics:
-            number_of_materials_completed:
-              type: count_distinct
-              description: Number of materials that have been completed
-      - name: material_tracked_time_seconds
-        description: Time spent on material in seconds
-        meta:
-          metrics:
-            total_material_time_min:
-              type: sum
-              description: Total time spent on materials in minutes
-              sql: "ROUND(${material_tracked_time_seconds}::numeric / 60, 2)"
-      - name: ai_tutor_status
-        description: Status for AI tutor materials (DONE, etc.)
-      - name: conversation_id
-        description: AI tutor conversation ID
-      - name: conversation_started_at
-        description: AI tutor conversation start timestamp
-      - name: conversation_ended_at
-        description: AI tutor conversation end timestamp
-      - name: submission_count
-        description: Number of submissions for AI tutor
-      - name: self_assessment_id
-        description: Self-assessment ID
-      - name: self_assessment_library_id
-        description: Self-assessment library ID
-      - name: require_feedback
-        description: Whether self-assessment requires feedback
-      - name: require_file_upload
-        description: Whether self-assessment requires file upload
-      - name: require_educator_approval
-        description: Educator approval requirement level
       - name: enrollment_started_at
         description: Enrollment start timestamp
         meta:
@@ -257,6 +204,81 @@ models:
         description: Certificate details (JSONB)
       - name: order_data
         description: Order data (JSONB)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+
+  - name: mart_materials
+    description: Materials mart - one row per material per enrollment. Can be joined to mart_enrollment via enrollment_id and mart_contact via email.
+    columns:
+      - name: enrollment_id
+        description: Enrollment ID (for joining to mart_enrollment)
+      - name: user_id
+        description: User ID
+      - name: course_id
+        description: Course ID
+      - name: material_id
+        description: Material ID
+        meta:
+          metrics:
+            number_of_materials:
+              type: count_distinct
+              description: Total number of unique materials
+      - name: email
+        description: User email (for joining to mart_contact)
+      - name: phone_number
+        description: User phone number
+      - name: user_name
+        description: User name
+      - name: course_name
+        description: Course name/title
+      - name: material_type
+        description: Type of material (video, text, rich_text, self-assessment, ai_tutor, etc.)
+      - name: material_is_required
+        description: Whether the material is required for course completion
+      - name: material_started_at
+        description: Timestamp when user started the material
+        meta:
+          metrics:
+            number_of_materials_started:
+              type: count_distinct
+              description: Number of materials that have been started
+      - name: material_completed_at
+        description: Timestamp when user completed the material
+        meta:
+          metrics:
+            number_of_materials_completed:
+              type: count_distinct
+              description: Number of materials that have been completed
+      - name: material_tracked_time_seconds
+        description: Time spent on material in seconds
+        meta:
+          metrics:
+            total_material_time_min:
+              type: sum
+              description: Total time spent on materials in minutes
+              sql: "ROUND(${material_tracked_time_seconds}::numeric / 60, 2)"
+      - name: ai_tutor_status
+        description: Status for AI tutor materials (DONE, etc.)
+      - name: conversation_id
+        description: AI tutor conversation ID
+      - name: conversation_started_at
+        description: AI tutor conversation start timestamp
+      - name: conversation_ended_at
+        description: AI tutor conversation end timestamp
+      - name: submission_count
+        description: Number of submissions for AI tutor
+      - name: self_assessment_id
+        description: Self-assessment ID
+      - name: self_assessment_library_id
+        description: Self-assessment library ID
+      - name: require_feedback
+        description: Whether self-assessment requires feedback
+      - name: require_file_upload
+        description: Whether self-assessment requires file upload
+      - name: require_educator_approval
+        description: Educator approval requirement level
       - name: data_source
         description: Source identifier
       - name: extracted_at
