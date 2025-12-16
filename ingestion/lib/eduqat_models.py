@@ -215,3 +215,100 @@ def get_total_tracked_time(enrollment: dict) -> Optional[float]:
     metadata = enrollment.get('metadata', {})
     tracked_time = metadata.get('tracked_time', {})
     return tracked_time.get('total')
+
+
+# =============================================================================
+# AI Conversation Models (from /ai/api/ext/submission-conversations)
+# =============================================================================
+
+@dataclass
+class AIConversationUser:
+    """User information embedded in AI conversation."""
+    id: str
+    subid: str
+    name: str
+    user_name: str
+    email: str
+    created_at: str
+    role: str
+
+
+@dataclass
+class AIConversationEducator:
+    """Educator information embedded in AI conversation (often empty)."""
+    created_at: str
+    # Other fields may be present when educator is assigned
+
+
+@dataclass
+class AIConversationMessage:
+    """
+    A single message in an AI conversation.
+
+    From /ai/api/ext/submission-conversations/messages/{conversation_id}
+    """
+    session_id: str  # Same as conversation_id
+    sender: str  # "ai" or "human"
+    value: str  # Message content
+    timestamp: str  # ISO timestamp
+
+
+@dataclass
+class AIConversation:
+    """
+    AI submission conversation from /ai/api/ext/submission-conversations.
+
+    Represents a user's AI tutor conversation session within a course material.
+    """
+    # Primary identifiers
+    id: int  # Internal submission ID
+    conversation_id: str  # Unique conversation/session ID
+    user_id: str  # UUID of the user
+    enrollment_id: str  # Links to enrollment
+    course_id: int
+    material_id: int
+
+    # Status and scoring
+    status: str  # e.g., "WAITING", "COMPLETED"
+    score: int
+
+    # Content fields
+    content: str  # May be empty
+    audio_url: Optional[str]
+
+    # Site context
+    x_site_id: str  # e.g., "umkmall"
+    educator_id: str  # Often empty
+
+    # Timestamps
+    created_at: str
+    updated_at: Optional[str]
+
+    # Nested objects
+    user: AIConversationUser
+    educator: AIConversationEducator
+
+    # Messages (populated separately from messages endpoint)
+    messages: Optional[list[AIConversationMessage]] = None
+
+
+@dataclass
+class AIConversationsResponse:
+    """
+    Response from /ai/api/ext/submission-conversations endpoint.
+
+    Note: This endpoint uses 'data' array and 'meta' for pagination,
+    unlike other endpoints that use 'items' and 'count'.
+    """
+    code: int
+    message: str
+    data: list[AIConversation]
+    meta: dict  # Contains: total_pages, total_count, page, limit
+
+
+@dataclass
+class AIConversationMessagesResponse:
+    """Response from /ai/api/ext/submission-conversations/messages/{id}."""
+    code: int
+    message: str
+    data: list[AIConversationMessage]

@@ -343,3 +343,122 @@ class EduqatClient:
             Parsed JSON response
         """
         return self._make_request(endpoint, method='POST', body=body)
+
+    def get_ai_conversations(self, page: Optional[int] = None, limit: Optional[int] = None) -> dict:
+        """
+        Get all AI submission conversations from /ai/api/ext/submission-conversations.
+
+        Automatically fetches all pages if page/limit are not provided.
+
+        Args:
+            page: Optional specific page to fetch (1-indexed)
+            limit: Optional number of items per page
+
+        Returns:
+            Dict with 'count' and 'items' keys containing conversation data.
+
+        Note:
+            This endpoint uses 'data' array and 'meta' for pagination info,
+            unlike other endpoints that use 'items' and 'count'.
+
+        Example response structure:
+            {
+                "code": 200,
+                "message": "Success",
+                "data": [
+                    {
+                        "id": 770,
+                        "conversation_id": "LURYy5hU-xi1WAFbvsCjf",
+                        "user_id": "258f4916-cde6-4739-84c1-9dc86ca975ad",
+                        "enrollment_id": "0UyFNKQK1L17ka37bEZi",
+                        "course_id": 10,
+                        "material_id": 190,
+                        "status": "WAITING",
+                        "score": 0,
+                        "user": {...},
+                        "educator": {...},
+                        ...
+                    }
+                ],
+                "meta": {
+                    "total_pages": 1,
+                    "total_count": 10,
+                    "page": 1,
+                    "limit": 10
+                }
+            }
+        """
+        endpoint = '/ai/api/ext/submission-conversations'
+
+        # If specific page/limit requested, return single page
+        if page is not None or limit is not None:
+            params = {}
+            if page is not None:
+                params['page'] = page
+            if limit is not None:
+                params['limit'] = limit
+            response = self._make_request(endpoint, params=params)
+            data = response.get('data', [])
+            return {
+                'count': len(data),
+                'items': data,
+                'meta': response.get('meta', {})
+            }
+
+        # Otherwise, fetch all pages automatically
+        all_items = []
+        page = 1
+        page_limit = 100  # Use a larger page size for efficiency
+
+        while True:
+            params = {'page': page, 'limit': page_limit}
+            response = self._make_request(endpoint, params=params)
+
+            data = response.get('data', [])
+            all_items.extend(data)
+
+            # Check meta for total pages
+            meta = response.get('meta', {})
+            total_pages = meta.get('total_pages', 1)
+
+            # If we've fetched all pages, stop
+            if page >= total_pages:
+                break
+
+            page += 1
+
+        return {
+            'count': len(all_items),
+            'items': all_items
+        }
+
+    def get_ai_conversation_messages(self, conversation_id: str) -> dict:
+        """
+        Get messages for a specific AI conversation.
+
+        Args:
+            conversation_id: The conversation_id (session_id) to fetch messages for
+
+        Returns:
+            Dict with 'messages' key containing list of message objects.
+
+        Example response structure:
+            {
+                "code": 200,
+                "message": "Success",
+                "data": [
+                    {
+                        "session_id": "LURYy5hU-xi1WAFbvsCjf",
+                        "sender": "ai",
+                        "value": "Hello...",
+                        "timestamp": "2025-09-30T03:29:12Z"
+                    },
+                    ...
+                ]
+            }
+        """
+        endpoint = f'/ai/api/ext/submission-conversations/messages/{conversation_id}'
+        response = self._make_request(endpoint)
+        return {
+            'messages': response.get('data', [])
+        }

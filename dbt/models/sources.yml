@@ -141,3 +141,31 @@ sources:
             description: Course publication timestamp
           - name: data_source
             description: Source identifier
+
+      - name: eduqat_ai_conversations
+        description: AI tutor conversation data from Eduqat API
+        columns:
+          - name: id
+            description: Unique submission ID (integer)
+          - name: conversation_id
+            description: Unique conversation/session identifier
+          - name: user_id
+            description: UUID of the user
+          - name: enrollment_id
+            description: Links to the user's enrollment
+          - name: course_id
+            description: Course identifier
+          - name: material_id
+            description: Material/lesson identifier where conversation occurred
+          - name: status
+            description: Conversation status (WAITING, COMPLETED, etc.)
+          - name: score
+            description: Score if graded
+          - name: user_data
+            description: JSONB containing user information (name, email, etc.)
+          - name: educator_data
+            description: JSONB containing educator information
+          - name: messages
+            description: JSONB array of conversation messages with sender, value, timestamp
+          - name: data_source
+            description: Source identifier

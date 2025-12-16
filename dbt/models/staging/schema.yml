@@ -348,3 +348,49 @@ models:
         description: Whether self-assessment requires file upload
       - name: require_educator_approval
         description: Educator approval requirement level
+
+  - name: stg_eduqat_ai_conversations
+    description: Staged AI tutor conversation messages from Eduqat. One row per message, unnested from conversation data.
+    columns:
+      - name: submission_id
+        description: Unique submission ID for the conversation
+      - name: conversation_id
+        description: Unique conversation/session identifier
+      - name: user_id
+        description: UUID of the user
+      - name: enrollment_id
+        description: Links to the user's enrollment
+      - name: course_id
+        description: Course identifier
+      - name: material_id
+        description: Material/lesson identifier where conversation occurred
+      - name: conversation_status
+        description: Conversation status (WAITING, COMPLETED, etc.)
+      - name: score
+        description: Score if graded
+      - name: content
+        description: Additional content field
+      - name: audio_url
+        description: Audio URL if voice conversation
+      - name: x_site_id
+        description: Site identifier (e.g., umkmall)
+      - name: educator_id
+        description: Educator ID if assigned
+      - name: conversation_created_at
+        description: Timestamp when conversation was created
+      - name: conversation_updated_at
+        description: Timestamp when conversation was last updated
+      - name: message_session_id
+        description: Session ID for the message (same as conversation_id)
+      - name: message_sender
+        description: Message sender - 'ai' or 'human'
+      - name: message_content
+        description: The actual message text content
+      - name: message_timestamp
+        description: Timestamp when the message was sent
+      - name: message_order
+        description: Order of the message within the conversation (1-indexed)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
