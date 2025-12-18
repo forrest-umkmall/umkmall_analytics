@@ -214,6 +214,8 @@ models:
         description: Certificate details (JSONB)
       - name: order_data
         description: Order data (JSONB)
+      - name: purchased_at
+        description: Payment timestamp from purchase form data
       - name: data_source
         description: Source identifier
       - name: extracted_at

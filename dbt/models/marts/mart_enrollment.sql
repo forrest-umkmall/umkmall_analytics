@@ -70,6 +70,9 @@ select
     e.certificates,
     e.order_data,
 
+    -- Purchase info
+    p.paid_at as purchased_at,
+
     -- Metadata
     e.data_source,
     e.extracted_at
@@ -77,3 +80,6 @@ select
 from {{ ref('stg_eduqat_enrollments') }} e
 left join {{ ref('stg_eduqat_courses') }} c
     on e.course_id = c.course_id
+left join {{ ref('stg_purchase_form_data') }} p
+    on e.course_id = p.course_id
+    and e.user_email = p.email

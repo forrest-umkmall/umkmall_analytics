@@ -10,6 +10,11 @@ select
     email,
     phone_number,
     paid_at,
+    product_type,
+    course_id::int as course_id,
+    amount,
+    payment_method,
+    payment_channel,
     data_source,
     extracted_at
 

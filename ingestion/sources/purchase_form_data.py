@@ -46,7 +46,12 @@ def ingest_purchase_data():
                     customer_last_name,
                     customer_email,
                     customer_phone,
-                    paid_at
+                    paid_at,
+                    product_type,
+                    course_id,
+                    amount,
+                    payment_method,
+                    payment_channel
                 FROM payments
                 WHERE paid_at IS NOT NULL
             """
@@ -82,6 +87,11 @@ def ingest_purchase_data():
                         email VARCHAR(255),
                         phone_number VARCHAR(50),
                         paid_at TIMESTAMP,
+                        product_type VARCHAR(100),
+                        course_id VARCHAR(255),
+                        amount NUMERIC,
+                        payment_method VARCHAR(100),
+                        payment_channel VARCHAR(100),
                         data_source VARCHAR(100),
                         extracted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     );
@@ -99,15 +109,25 @@ def ingest_purchase_data():
                             email,
                             phone_number,
                             paid_at,
+                            product_type,
+                            course_id,
+                            amount,
+                            payment_method,
+                            payment_channel,
                             data_source,
                             extracted_at
-                        ) VALUES (%s, %s, %s, %s, %s, %s, %s);
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
                     """, (
                         row.get('customer_first_name'),
                         row.get('customer_last_name'),
                         row.get('email'),
                         row.get('phone_number'),
                         row.get('paid_at'),
+                        row.get('product_type'),
+                        row.get('course_id'),
+                        row.get('amount'),
+                        row.get('payment_method'),
+                        row.get('payment_channel'),
                         row.get('data_source'),
                         row.get('extracted_at')
                     ))
