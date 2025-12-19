@@ -28,6 +28,8 @@ select
 
     -- Course info
     c.course_name,
+    c.course_type,
+    c.course_status,
 
     -- Enrollment timing
     e.enrollment_started_at,

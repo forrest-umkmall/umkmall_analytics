@@ -137,6 +137,10 @@ models:
         description: User name
       - name: course_name
         description: Course name/title
+      - name: course_type
+        description: Type of course (e.g., online, offline, blended)
+      - name: course_status
+        description: Status of the course (e.g., draft, published, archived)
       - name: enrollment_started_at
         description: Enrollment start timestamp
         meta:
