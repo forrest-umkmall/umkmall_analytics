@@ -169,3 +169,27 @@ sources:
             description: JSONB array of conversation messages with sender, value, timestamp
           - name: data_source
             description: Source identifier
+
+      - name: eduqat_survey_results
+        description: Survey results fetched from Eduqat API for completed surveys
+        columns:
+          - name: enrollment_id
+            description: Enrollment ID (part of composite key)
+          - name: material_id
+            description: Material ID of the survey (part of composite key)
+          - name: survey_id
+            description: Unique survey identifier
+          - name: course_id
+            description: Course identifier
+          - name: user_id
+            description: User who completed the survey
+          - name: survey_type
+            description: Type of survey
+          - name: survey_title
+            description: Title of the survey
+          - name: elements
+            description: JSONB array of survey elements (questions with responses)
+          - name: completed_at
+            description: Timestamp when survey was completed
+          - name: data_source
+            description: Source identifier

@@ -394,3 +394,37 @@ models:
         description: Source identifier
       - name: extracted_at
         description: Data extraction timestamp
+
+  - name: stg_eduqat_survey_results
+    description: Staged survey results from Eduqat API. One row per question per survey response, unnested from the elements array.
+    columns:
+      - name: enrollment_id
+        description: Enrollment ID (foreign key to stg_eduqat_enrollments)
+      - name: material_id
+        description: Material ID of the survey in the course
+      - name: question_index
+        description: Zero-based index of the question within the survey
+      - name: survey_id
+        description: Unique survey identifier
+      - name: course_id
+        description: Course ID
+      - name: user_id
+        description: User ID who completed the survey
+      - name: survey_type
+        description: Type of survey (e.g., 'survey')
+      - name: survey_title
+        description: Title of the survey
+      - name: question_text
+        description: The survey question text
+      - name: question_description
+        description: Additional description/context for the question (HTML)
+      - name: question_type
+        description: Type of question (text, radiogroup, dropdown, checkbox, rating, linear_scale)
+      - name: responses
+        description: JSONB array of response values for this question
+      - name: completed_at
+        description: Timestamp when the survey was completed
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
