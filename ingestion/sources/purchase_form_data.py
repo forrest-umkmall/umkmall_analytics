@@ -46,6 +46,7 @@ def ingest_purchase_data():
                     customer_last_name,
                     customer_email,
                     customer_phone,
+                    created_at,
                     paid_at,
                     product_type,
                     course_id,
@@ -53,7 +54,6 @@ def ingest_purchase_data():
                     payment_method,
                     payment_channel
                 FROM payments
-                WHERE paid_at IS NOT NULL
             """
 
             df = source_client.execute_query(query)
@@ -69,6 +69,28 @@ def ingest_purchase_data():
             # Add metadata
             df['data_source'] = SOURCE_NAME
             df['extracted_at'] = datetime.utcnow()
+
+            # Convert DataFrame to list of dicts with Python native types
+            # This handles NaT -> None conversion properly
+            import pandas as pd
+            import numpy as np
+
+            def convert_value(val):
+                """Convert pandas/numpy types to Python native types."""
+                if pd.isna(val):
+                    return None
+                if isinstance(val, (pd.Timestamp, np.datetime64)):
+                    return pd.Timestamp(val).to_pydatetime()
+                if isinstance(val, np.integer):
+                    return int(val)
+                if isinstance(val, np.floating):
+                    return float(val)
+                return val
+
+            records = df.to_dict('records')
+            for record in records:
+                for key, val in record.items():
+                    record[key] = convert_value(val)
 
             # Load to analytics database (raw schema)
             logger.info("Loading data to analytics database")
@@ -86,6 +108,7 @@ def ingest_purchase_data():
                         customer_last_name VARCHAR(255),
                         email VARCHAR(255),
                         phone_number VARCHAR(50),
+                        created_at TIMESTAMP,
                         paid_at TIMESTAMP,
                         product_type VARCHAR(100),
                         course_id VARCHAR(255),
@@ -101,13 +124,14 @@ def ingest_purchase_data():
                 cursor.execute(f"TRUNCATE TABLE raw.{SOURCE_NAME};")
 
                 # Insert data
-                for _, row in df.iterrows():
+                for row in records:
                     cursor.execute(f"""
                         INSERT INTO raw.{SOURCE_NAME} (
                             customer_first_name,
                             customer_last_name,
                             email,
                             phone_number,
+                            created_at,
                             paid_at,
                             product_type,
                             course_id,
@@ -116,12 +140,13 @@ def ingest_purchase_data():
                             payment_channel,
                             data_source,
                             extracted_at
-                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
                     """, (
                         row.get('customer_first_name'),
                         row.get('customer_last_name'),
                         row.get('email'),
                         row.get('phone_number'),
+                        row.get('created_at'),
                         row.get('paid_at'),
                         row.get('product_type'),
                         row.get('course_id'),

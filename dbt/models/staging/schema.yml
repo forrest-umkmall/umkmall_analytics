@@ -12,6 +12,8 @@ models:
         description: Customer first name
       - name: customer_last_name
         description: Customer last name
+      - name: created_at
+        description: Purchase link creation timestamp
       - name: paid_at
         description: Payment timestamp
       - name: data_source

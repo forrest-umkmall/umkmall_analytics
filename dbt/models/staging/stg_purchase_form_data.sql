@@ -9,6 +9,7 @@ select
     customer_last_name,
     email,
     phone_number,
+    created_at,
     paid_at,
     product_type,
     course_id::int as course_id,
