@@ -14,12 +14,21 @@ models:
         description: Customer last name
       - name: created_at
         description: Purchase link creation timestamp
+        meta:
+          dimension:
+            type: timestamp
       - name: paid_at
         description: Payment timestamp
+        meta:
+          dimension:
+            type: timestamp
       - name: data_source
         description: Source identifier
       - name: extracted_at
         description: Data extraction timestamp
+        meta:
+          dimension:
+            type: timestamp
 
   - name: stg_leads_ads_community
     description: Staged leads from Ads Community Google Sheets
