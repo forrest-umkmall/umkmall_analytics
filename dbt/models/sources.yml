@@ -193,3 +193,39 @@ sources:
             description: Timestamp when survey was completed
           - name: data_source
             description: Source identifier
+
+      - name: ai_chat_messages
+        description: AI chat messages from the product database
+        columns:
+          - name: id
+            description: Unique message identifier (UUID)
+          - name: session_id
+            description: Chat session identifier (UUID)
+          - name: role
+            description: Message sender role (user, assistant, etc.)
+          - name: content
+            description: Message content text
+          - name: message_order
+            description: Order of message within the session
+          - name: created_at
+            description: Timestamp when message was created
+          - name: data_source
+            description: Source identifier
+
+      - name: ai_chat_sessions
+        description: AI chat sessions from the product database
+        columns:
+          - name: id
+            description: Unique session identifier (UUID)
+          - name: user_id
+            description: User identifier (UUID)
+          - name: guest_session_id
+            description: Guest session identifier for unauthenticated users
+          - name: title
+            description: Session title
+          - name: created_at
+            description: Timestamp when session was created
+          - name: updated_at
+            description: Timestamp when session was last updated
+          - name: data_source
+            description: Source identifier

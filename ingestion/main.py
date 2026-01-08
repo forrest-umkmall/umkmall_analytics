@@ -51,6 +51,8 @@ def run_ingestion_scripts():
     from ingestion.sources import eduqat_users
     from ingestion.sources import eduqat_courses
     from ingestion.sources import eduqat_survey_results
+    from ingestion.sources import ai_chat_messages
+    from ingestion.sources import ai_chat_sessions
 
     sources = [
         ("purchase_form_data", purchase_form_data.ingest_purchase_data),
@@ -63,6 +65,8 @@ def run_ingestion_scripts():
         ("eduqat_courses", eduqat_courses.ingest_eduqat_courses),
         # Note: eduqat_survey_results must run AFTER eduqat_enrollments (depends on completions data)
         ("eduqat_survey_results", eduqat_survey_results.ingest_eduqat_survey_results),
+        ("ai_chat_messages", ai_chat_messages.ingest_ai_chat_messages),
+        ("ai_chat_sessions", ai_chat_sessions.ingest_ai_chat_sessions),
     ]
 
     for source_name, ingest_func in sources:
