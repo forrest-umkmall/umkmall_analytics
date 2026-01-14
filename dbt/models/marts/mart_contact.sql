@@ -35,9 +35,8 @@ purchases as (
         min(paid_at) as first_purchased_at,
         max(paid_at) as last_purchased_at,
         count(*) as total_purchases,
-        -- Get first/last name from most recent purchase
-        (array_agg(customer_first_name order by paid_at desc))[1] as customer_first_name,
-        (array_agg(customer_last_name order by paid_at desc))[1] as customer_last_name
+        -- Get customer name from most recent purchase
+        (array_agg(customer_name order by paid_at desc))[1] as customer_name
     from {{ ref('stg_purchase_form_data') }}
     where email is not null
     group by email
@@ -81,13 +80,8 @@ combined as (
         coalesce(m.email, p.email, eu.email, ea.email) as email,
         m.phone_number,
 
-        -- Names: prefer purchase (explicit first/last), then eduqat, then marketing
-        coalesce(p.customer_first_name, split_part(eu.eduqat_name, ' ', 1), split_part(m.nama_pemilik_usaha, ' ', 1)) as first_name,
-        coalesce(
-            p.customer_last_name,
-            nullif(substring(eu.eduqat_name from position(' ' in eu.eduqat_name) + 1), ''),
-            nullif(substring(m.nama_pemilik_usaha from position(' ' in m.nama_pemilik_usaha) + 1), '')
-        ) as last_name,
+        -- Full name: prefer purchase, then eduqat, then marketing
+        coalesce(p.customer_name, eu.eduqat_name, m.nama_pemilik_usaha) as full_name,
 
         -- Purchase data
         p.first_purchased_at,

@@ -25,10 +25,8 @@ models:
             number_of_wa:
               type: count_distinct
               description: Number of contacts with WhatsApp/phone numbers
-      - name: first_name
-        description: Contact first name (from purchase, eduqat, or marketing)
-      - name: last_name
-        description: Contact last name (from purchase, eduqat, or marketing)
+      - name: full_name
+        description: Contact full name (from purchase, eduqat, or marketing)
       - name: first_purchased_at
         description: First purchase timestamp
       - name: last_purchased_at

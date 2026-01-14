@@ -9,6 +9,8 @@ sources:
       - name: purchase_form_data
         description: Customer purchase data from Supabase product database
         columns:
+          - name: customer_name
+            description: Customer full name
           - name: email
             description: Customer email address (normalized)
           - name: phone_number

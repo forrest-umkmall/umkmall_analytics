@@ -5,8 +5,7 @@
 }}
 
 select
-    customer_first_name,
-    customer_last_name,
+    customer_name,
     email,
     phone_number,
     created_at,

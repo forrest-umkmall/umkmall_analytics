@@ -66,9 +66,8 @@ GLOBAL_COLUMN_MAPPING = {
     'timestamp': 'timestamp',
     'created_time': 'timestamp',
 
-    # Customer name fields
-    'customer_first_name': 'customer_first_name',
-    'customer_last_name': 'customer_last_name',
+    # Customer name field
+    'customer_name': 'customer_name',
 
     # Payment date
     'paid_at': 'paid_at',

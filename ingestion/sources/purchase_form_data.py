@@ -42,8 +42,7 @@ def ingest_purchase_data():
             # Execute the query from the source config
             query = """
                 SELECT
-                    customer_first_name,
-                    customer_last_name,
+                    customer_name,
                     customer_email,
                     customer_phone,
                     created_at,
@@ -104,8 +103,7 @@ def ingest_purchase_data():
                 # Create table
                 cursor.execute(f"""
                     CREATE TABLE IF NOT EXISTS raw.{SOURCE_NAME} (
-                        customer_first_name VARCHAR(255),
-                        customer_last_name VARCHAR(255),
+                        customer_name VARCHAR(255),
                         email VARCHAR(255),
                         phone_number VARCHAR(50),
                         created_at TIMESTAMP,
@@ -127,8 +125,7 @@ def ingest_purchase_data():
                 for row in records:
                     cursor.execute(f"""
                         INSERT INTO raw.{SOURCE_NAME} (
-                            customer_first_name,
-                            customer_last_name,
+                            customer_name,
                             email,
                             phone_number,
                             created_at,
@@ -140,10 +137,9 @@ def ingest_purchase_data():
                             payment_channel,
                             data_source,
                             extracted_at
-                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
                     """, (
-                        row.get('customer_first_name'),
-                        row.get('customer_last_name'),
+                        row.get('customer_name'),
                         row.get('email'),
                         row.get('phone_number'),
                         row.get('created_at'),
