@@ -73,6 +73,7 @@ class EduqatClient:
         headers = {
             'Content-Type': 'application/json',
             'x-api-key': self.api_key,
+            'User-Agent': 'umkmall-analytics/1.0',
         }
 
         data = None
