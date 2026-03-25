@@ -75,3 +75,42 @@ models:
         description: Timestamp when session was created
       - name: session_updated_at
         description: Timestamp when session was last updated
+
+  - name: int_user_retention
+    description: Per-user retention flags based on whether the user sent at least one message after N days from account creation
+    columns:
+      - name: user_id
+        description: User identifier (UUID)
+      - name: user_email
+        description: User email address
+      - name: user_mobile
+        description: User mobile phone number
+      - name: user_created_at
+        description: Timestamp when the user account was created
+        meta:
+          dimension:
+            type: timestamp
+      - name: first_message_at
+        description: Timestamp of the user's first message
+        meta:
+          dimension:
+            type: timestamp
+      - name: last_message_at
+        description: Timestamp of the user's most recent message
+        meta:
+          dimension:
+            type: timestamp
+      - name: total_messages
+        description: Total number of messages sent by the user
+      - name: active_days
+        description: Number of distinct days the user sent messages
+      - name: retained_7d
+        description: Whether the user sent a message at least 7 days after account creation
+      - name: retained_14d
+        description: Whether the user sent a message at least 14 days after account creation
+      - name: retained_30d
+        description: Whether the user sent a message at least 30 days after account creation
+      - name: retained_60d
+        description: Whether the user sent a message at least 60 days after account creation
+      - name: retained_90d
+        description: Whether the user sent a message at least 90 days after account creation
