@@ -66,6 +66,11 @@ models:
         description: Timestamp when message was created
       - name: is_internal_user
         description: Whether the user is an internal team member, based on mobile phone number
+      - name: user_created_at
+        description: Timestamp when the user account was created
+        meta:
+          dimension:
+            type: timestamp
       - name: session_created_at
         description: Timestamp when session was created
       - name: session_updated_at

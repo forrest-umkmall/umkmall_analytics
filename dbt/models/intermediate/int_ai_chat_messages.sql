@@ -35,6 +35,7 @@ select
     m.message_order,
     m.created_at as message_created_at,
     u.is_internal_user,
+    u.created_at as user_created_at,
     s.created_at as session_created_at,
     s.updated_at as session_updated_at
 
