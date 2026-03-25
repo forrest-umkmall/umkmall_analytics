@@ -18,9 +18,7 @@ with user_messages as (
         user_created_at,
         message_created_at
     from {{ ref('int_ai_chat_messages') }}
-    where role = 'user'
-      and is_internal_user = false
-      and user_id is not null
+    where user_id is not null
 )
 
 select
