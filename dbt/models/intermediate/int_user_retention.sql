@@ -32,10 +32,10 @@ select
     max(message_created_at) as last_message_at,
     count(*) as total_messages,
     count(distinct date_trunc('day', message_created_at)) as active_days,
-    bool_or(message_created_at >= user_created_at + interval '7 days') as retained_7d,
-    bool_or(message_created_at >= user_created_at + interval '14 days') as retained_14d,
-    bool_or(message_created_at >= user_created_at + interval '30 days') as retained_30d,
-    bool_or(message_created_at >= user_created_at + interval '60 days') as retained_60d,
-    bool_or(message_created_at >= user_created_at + interval '90 days') as retained_90d
+    bool_or(message_created_at >= user_created_at + interval '7 days')::int as retained_7d,
+    bool_or(message_created_at >= user_created_at + interval '14 days')::int as retained_14d,
+    bool_or(message_created_at >= user_created_at + interval '30 days')::int as retained_30d,
+    bool_or(message_created_at >= user_created_at + interval '60 days')::int as retained_60d,
+    bool_or(message_created_at >= user_created_at + interval '90 days')::int as retained_90d
 from user_messages
 group by user_id, user_email, user_mobile, user_created_at

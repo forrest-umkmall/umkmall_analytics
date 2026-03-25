@@ -106,11 +106,41 @@ models:
         description: Number of distinct days the user sent messages
       - name: retained_7d
         description: Whether the user sent a message at least 7 days after account creation
+        meta:
+          metrics:
+            retained_7d_count:
+              type: sum
+              label: "Retained 7d (count)"
+              description: Number of users retained after 7 days
       - name: retained_14d
         description: Whether the user sent a message at least 14 days after account creation
+        meta:
+          metrics:
+            retained_14d_count:
+              type: sum
+              label: "Retained 14d (count)"
+              description: Number of users retained after 14 days
       - name: retained_30d
         description: Whether the user sent a message at least 30 days after account creation
+        meta:
+          metrics:
+            retained_30d_count:
+              type: sum
+              label: "Retained 30d (count)"
+              description: Number of users retained after 30 days
       - name: retained_60d
         description: Whether the user sent a message at least 60 days after account creation
+        meta:
+          metrics:
+            retained_60d_count:
+              type: sum
+              label: "Retained 60d (count)"
+              description: Number of users retained after 60 days
       - name: retained_90d
         description: Whether the user sent a message at least 90 days after account creation
+        meta:
+          metrics:
+            retained_90d_count:
+              type: sum
+              label: "Retained 90d (count)"
+              description: Number of users retained after 90 days
