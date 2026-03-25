@@ -48,6 +48,10 @@ models:
         description: Chat session identifier (UUID)
       - name: user_id
         description: User identifier (UUID) from the session
+      - name: user_email
+        description: User email address (from users table)
+      - name: user_mobile
+        description: User mobile phone number (from users table)
       - name: guest_session_id
         description: Guest session identifier for unauthenticated users
       - name: session_title

@@ -188,6 +188,209 @@ models:
       - name: composite_key
         description: Deduplication key (email|phone)
 
+  - name: stg_users
+    description: Staged UMKMall user accounts from Supabase
+    columns:
+      - name: id
+        description: Primary user ID (UUID)
+      - name: email
+        description: User email address
+      - name: created_at
+        description: Account creation timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: Account last updated timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: role
+        description: User role
+      - name: eduqat_user_id
+        description: Linked Eduqat user ID
+      - name: name
+        description: User display name
+      - name: mobile
+        description: User mobile phone number
+      - name: mobile_verified
+        description: Whether mobile is verified
+      - name: mobile_verified_at
+        description: Mobile verification timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: avatar_url
+        description: Profile picture URL
+      - name: birth_date
+        description: User birth date
+      - name: address
+        description: User address
+      - name: city
+        description: User city
+      - name: province
+        description: User province
+      - name: postal_code
+        description: User postal code
+      - name: language_preference
+        description: Preferred language
+      - name: ai_tone_preference
+        description: Preferred AI tone
+      - name: interests
+        description: User interests (JSONB)
+      - name: level
+        description: User level
+      - name: voice_preference
+        description: Preferred voice
+      - name: latitude
+        description: User latitude
+      - name: longitude
+        description: User longitude
+      - name: segment
+        description: User segment
+      - name: business_name
+        description: User business name
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+        meta:
+          dimension:
+            type: timestamp
+
+  - name: stg_ai_chat_sessions
+    description: Staged AI chat sessions from Supabase
+    columns:
+      - name: id
+        description: Unique session identifier (UUID)
+      - name: user_id
+        description: User identifier (UUID)
+      - name: guest_session_id
+        description: Guest session identifier for unauthenticated users
+      - name: title
+        description: Chat session title
+      - name: created_at
+        description: Session creation timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: Session last updated timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+        meta:
+          dimension:
+            type: timestamp
+
+  - name: stg_ai_chat_messages
+    description: Staged AI chat messages from Supabase
+    columns:
+      - name: id
+        description: Unique message identifier (UUID)
+      - name: session_id
+        description: Chat session identifier (UUID)
+      - name: role
+        description: Message sender role (user, assistant, etc.)
+      - name: content
+        description: Message content text
+      - name: message_order
+        description: Order of message within the session
+        meta:
+          dimension:
+            type: number
+      - name: created_at
+        description: Message creation timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+        meta:
+          dimension:
+            type: timestamp
+
+  - name: stg_eduqat_courses
+    description: Staged Eduqat course catalog
+    columns:
+      - name: course_id
+        description: Unique course identifier
+      - name: slug
+        description: URL-friendly course slug
+      - name: course_name
+        description: Course display name
+      - name: description
+        description: Course description
+      - name: course_type
+        description: Type of course
+      - name: course_status
+        description: Course status (published, draft, etc.)
+      - name: duration_seconds
+        description: Course duration in seconds
+        meta:
+          dimension:
+            type: number
+      - name: total_student
+        description: Total number of students
+        meta:
+          dimension:
+            type: number
+      - name: rating
+        description: Course rating
+        meta:
+          dimension:
+            type: number
+      - name: author
+        description: Course author
+      - name: parent_course_id
+        description: Parent course ID for sub-courses
+      - name: timezone
+        description: Course timezone
+      - name: progress_status
+        description: Course progress status
+      - name: start_date
+        description: Course start date
+        meta:
+          dimension:
+            type: timestamp
+      - name: end_date
+        description: Course end date
+        meta:
+          dimension:
+            type: timestamp
+      - name: published_at
+        description: Course publication timestamp
+        meta:
+          dimension:
+            type: timestamp
+      - name: language_codes
+        description: Supported language codes (JSONB)
+      - name: categories
+        description: Course categories (JSONB)
+      - name: educators
+        description: Course educators (JSONB)
+      - name: images
+        description: Course images (JSONB)
+      - name: prices
+        description: Course pricing (JSONB)
+      - name: tags
+        description: Course tags (JSONB)
+      - name: metadata
+        description: Additional metadata (JSONB)
+      - name: data_source
+        description: Source identifier
+      - name: extracted_at
+        description: Data extraction timestamp
+        meta:
+          dimension:
+            type: timestamp
+
   - name: stg_eduqat_users
     description: Staged Eduqat user accounts
     columns:
