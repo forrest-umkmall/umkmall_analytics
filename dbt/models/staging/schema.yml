@@ -250,6 +250,8 @@ models:
         description: User segment
       - name: business_name
         description: User business name
+      - name: is_internal_user
+        description: Whether the user is an internal team member, based on mobile phone number
       - name: data_source
         description: Source identifier
       - name: extracted_at

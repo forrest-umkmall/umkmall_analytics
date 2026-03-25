@@ -64,6 +64,8 @@ models:
         description: Order of message within the session
       - name: message_created_at
         description: Timestamp when message was created
+      - name: is_internal_user
+        description: Whether the user is an internal team member, based on mobile phone number
       - name: session_created_at
         description: Timestamp when session was created
       - name: session_updated_at

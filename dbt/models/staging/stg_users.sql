@@ -30,6 +30,15 @@ select
     longitude,
     segment,
     business_name,
+    mobile in (
+        '6285121391537', -- Forrest
+        '62895325161356', -- Diva
+        '6285782707018', -- Jeremy
+        '6285961130185', -- Jeremy 2
+        '6282122906314', -- Leo
+        '6281296466046', -- Agil
+        '6289658090398' -- Nurul
+    ) as is_internal_user,
     data_source,
     extracted_at
 
