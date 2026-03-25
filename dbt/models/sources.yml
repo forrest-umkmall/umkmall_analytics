@@ -196,6 +196,62 @@ sources:
           - name: data_source
             description: Source identifier
 
+      - name: users
+        description: User account data from Supabase product database
+        columns:
+          - name: id
+            description: Unique user identifier (UUID)
+          - name: email
+            description: User email address
+          - name: created_at
+            description: Account creation timestamp
+          - name: updated_at
+            description: Account last updated timestamp
+          - name: role
+            description: User role (user, admin, etc.)
+          - name: eduqat_user_id
+            description: Linked Eduqat user ID
+          - name: name
+            description: User display name
+          - name: mobile
+            description: Mobile phone number
+          - name: mobile_verified
+            description: Whether mobile number has been verified
+          - name: mobile_verified_at
+            description: Timestamp when mobile was verified
+          - name: avatar_url
+            description: URL to user avatar image
+          - name: birth_date
+            description: User date of birth
+          - name: address
+            description: User street address
+          - name: city
+            description: User city
+          - name: province
+            description: User province
+          - name: postal_code
+            description: User postal code
+          - name: language_preference
+            description: Preferred language (e.g. id, en)
+          - name: ai_tone_preference
+            description: Preferred AI tone (e.g. casual, formal)
+          - name: interests
+            description: JSONB array of user interests
+          - name: level
+            description: User level/tier
+          - name: voice_preference
+            description: Preferred AI voice
+          - name: latitude
+            description: User location latitude
+          - name: longitude
+            description: User location longitude
+          - name: segment
+            description: User segment classification
+          - name: business_name
+            description: User's business name
+          - name: data_source
+            description: Source identifier
+
       - name: ai_chat_messages
         description: AI chat messages from the product database
         columns:

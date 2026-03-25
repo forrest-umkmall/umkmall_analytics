@@ -54,6 +54,7 @@ def run_ingestion_scripts():
     from ingestion.sources import eduqat_survey_results
     from ingestion.sources import ai_chat_messages
     from ingestion.sources import ai_chat_sessions
+    from ingestion.sources import users
 
     sources = [
         ("purchase_form_data", purchase_form_data.ingest_purchase_data),
@@ -68,6 +69,7 @@ def run_ingestion_scripts():
         ("eduqat_survey_results", eduqat_survey_results.ingest_eduqat_survey_results),
         ("ai_chat_messages", ai_chat_messages.ingest_ai_chat_messages),
         ("ai_chat_sessions", ai_chat_sessions.ingest_ai_chat_sessions),
+        ("users", users.ingest_users),
     ]
 
     for source_name, ingest_func in sources:
