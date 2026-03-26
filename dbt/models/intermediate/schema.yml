@@ -90,6 +90,11 @@ models:
         meta:
           dimension:
             type: timestamp
+      - name: is_internal_user
+        description: Whether the user is an internal team member
+        meta:
+          dimension:
+            type: boolean
       - name: first_message_at
         description: Timestamp of the user's first message
         meta:

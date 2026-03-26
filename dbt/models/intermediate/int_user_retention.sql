@@ -16,6 +16,7 @@ with user_messages as (
         user_email,
         user_mobile,
         user_created_at,
+        is_internal_user,
         message_created_at
     from {{ ref('int_ai_chat_messages') }}
     where user_id is not null
@@ -26,6 +27,7 @@ select
     user_email,
     user_mobile,
     user_created_at,
+    is_internal_user,
     min(message_created_at) as first_message_at,
     max(message_created_at) as last_message_at,
     count(*) as total_messages,
@@ -36,4 +38,4 @@ select
     bool_or(message_created_at >= user_created_at + interval '60 days')::int as retained_60d,
     bool_or(message_created_at >= user_created_at + interval '90 days')::int as retained_90d
 from user_messages
-group by user_id, user_email, user_mobile, user_created_at
+group by user_id, user_email, user_mobile, user_created_at, is_internal_user
